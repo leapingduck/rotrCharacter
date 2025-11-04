@@ -63,7 +63,7 @@ h3 {
 
 /* Hide the default checkbox */
 input[type='checkbox'] {
-  /* display: none; */
+  display: none;
 }
 
 /* Change the color of the label when the checkbox is checked */
@@ -81,4 +81,8 @@ label {
   padding: 0.25rem 0;
   font-size: 1rem;
   cursor: pointer;
+}
+
+.active {
+  color: green;
 }
