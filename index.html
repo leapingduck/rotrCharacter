@@ -1,1 +1,73 @@
-
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bento Layout</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="column column-1">
+        <div class="area attacks">
+          <h2>Offensive Abilities</h2>
+          <h3>Effects</h3>
+          <label class="custom-label"
+            ><input class="checkbox" type="checkbox" id="powerAttack" />Power
+            Attack</label
+          >
+          <!-- <small>-4 to hit and a +8 to damage</small> -->
+          <label class="custom-label"
+            ><input type="checkbox" id="furiousFocus" />Furious Focus</label
+          >
+          <label class="custom-label"
+            ><input type="checkbox" id="banner" />Banner</label
+          >
+          <label class="custom-label"
+            ><input type="checkbox" id="flamingWeapon" />Flaming</label
+          >
+          <label class="custom-label"
+            ><input type="checkbox" id="baneWeapon" />Bane</label
+          >
+          <h3>Action Types</h3>
+          <label class="custom-label"
+            ><input type="checkbox" id="chargeAction" />Charge</label
+          >
+          <label class="custom-label"
+            ><input type="checkbox" id="vitalStrike" />Vital Strike</label
+          >
+        </div>
+        <div class="area weapons">
+          <h2>Weapons</h2>
+          <label class="custom-label"
+            ><input type="checkbox" id="weapon1" />Giant Bane Greatsword
+            (+2)</label
+          >
+          <label class="custom-label"
+            ><input type="checkbox" id="weapon2" />Impact Greatsword (+1)</label
+          >
+          <label class="custom-label"
+            ><input type="checkbox" id="weapon3" />Adamantine Warhammer
+            (+1)</label
+          >
+          <label class="custom-label"
+            ><input type="checkbox" id="weapon4" />Fist</label
+          >
+        </div>
+      </div>
+      <div class="column column-2">
+        <div class="area area3">
+          <h2>Macros</h2>
+          <h3>Output</h3>
+          <div class="output" id="output">Test</div>
+          <h3>Loadouts</h3>
+        </div>
+      </div>
+      <div class="column column-3">
+        <div class="area area4">Defensive Abilities</div>
+        <div class="area area5">Misc</div>
+      </div>
+    </div>
+    <script src="scripts/scripts.js"></script>
+  </body>
+</html>
