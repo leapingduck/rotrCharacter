@@ -1,0 +1,311 @@
+<!-- ADD Lead Blades and other weapons --!>
+<!-- AC Toggles --!>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Checkbox Value Calculator</title>
+  </head>
+
+  <body>
+    <!-- add section for weapons with default bonuses -->
+    <!-- multi attack, mounted attack support,  -->
+    <!-- add flank -->
+    <!-- add descriptions of modifiers -->
+    <h2>Choose options:</h2>
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack="18"
+        data-damage="9"
+        checked
+      />
+      Base Attack (+12 BAB +6 STR, +9 STR*1.5) </label
+    ><br />
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack="2"
+        data-damage="6"
+      />
+      Challenged Foe (+2 Morale, +6) </label
+    ><br />
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack="2"
+        data-damage="2"
+      />
+      Inspire Courage (+1 Competence, +1) </label
+    ><br />
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack="1"
+        data-damage="1"
+        checked
+      />
+      Banner (+1 Morale, +1 Morale) </label
+    ><br />
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack="3"
+        data-damage=""
+      />
+      Banner Charge (+3 Morale, +0 Morale) </label
+    ><br />
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack="1"
+        data-damage=""
+        checked
+      />
+      Weapon Focus (+1 to hit) </label
+    ><br />
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack="1"
+        data-damage="1"
+        checked
+      />
+      Weapon Item Bonus (+1, +1) </label
+    ><br />
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack="2"
+        data-damage="2"
+      />
+      Giant Bane (+2, +2) </label
+    ><br />
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack="-4"
+        data-damage="12"
+        checked
+      />
+      Power Attack </label
+    ><br />
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack="4"
+        data-damage=""
+        checked
+      />
+      Furious Focus </label
+    ><br />
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack=""
+        data-damage=""
+      />
+      Flaming Sword </label
+    ><br />
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack="-9"
+        data-damage=""
+      />
+      Second Multi-Attack</label
+    ><br />
+
+    <label>
+      <input
+        type="checkbox"
+        class="custom-checkbox"
+        data-attack="-14"
+        data-damage="1"
+      />
+      Third Multi-Attack</label
+    ><br />
+
+    <h3>Total A: <span id="totalA">0</span></h3>
+    <h3>Total B: <span id="totalB">0</span></h3>
+    <h3>Regular Attack - Giant Bane & Fire</h3>
+    <code id="attackCode"> select </code>
+
+    <h3>Vital Strike - Giant Bane * Fire</h3>
+    <code id="attackCode2"> select </code>
+
+    <h3>regular strike</h3>
+    <code id="attackCode3"> select </code>
+
+    <h3>vital strike</h3>
+    <code id="attackCode4"> select </code>
+
+    <h3>regular strike + large</h3>
+    <code id="attackCode5"> select </code>
+
+    <h3>vital strike + large</h3>
+    <code id="attackCode6"> select </code>
+
+    <script>
+      const checkboxes = document.querySelectorAll('.custom-checkbox');
+      const totalADisplay = document.getElementById('totalA');
+      const totalBDisplay = document.getElementById('totalB');
+
+      function updateTotals() {
+        let totalA = 0;
+        let totalB = 0;
+
+        checkboxes.forEach((cb) => {
+          if (cb.checked) {
+            totalA += Number(cb.dataset.attack);
+            totalB += Number(cb.dataset.damage);
+          }
+        });
+
+        totalADisplay.textContent = totalA;
+        totalBDisplay.textContent = totalB;
+        attackCode.textContent = `&{template:pc}
+{{name=Sword}}
+{{type=attackdamage}}
+{{showchar=1}}
+{{charname=Lord Guber}}
+{{attack=1}}
+{{roll=[[1d20cs>17 + ${totalA} + ?{AttackMod|0}]]}}
+{{critconfirm=[[1d20 + ${totalA} + ?{AttackMod|0}]]}}
+{{atkvs=Melee+STR vs AC}}
+{{damage=1}}
+{{dmg1flag=1}}
+{{dmg1=[[2d6 + ${totalB} + ?{DamageMod|0}]]}}
+{{dmg1type=Slashing}}
+{{dmg1crit=[[(2d6 + ${totalB} + ?{DamageMod|0})*2]]}}
+{{dmg2flag=1}}
+{{dmg2=[[3d6]]}}
+{{dmg2type=Fire&Bane}}
+{{dmg2crit=[[3d6]]}}`;
+        attackCode2.textContent = `&{template:pc}
+{{name=Sword}}
+{{type=attackdamage}}
+{{showchar=1}}
+{{charname=Lord Guber}}
+{{attack=1}}
+{{roll=[[1d20cs>17 + ${totalA} + ?{AttackMod|0}]]}}
+{{critconfirm=[[1d20 + ${totalA} + ?{AttackMod|0}]]}}
+{{atkvs=Melee+STR vs AC}}
+{{damage=1}}
+{{dmg1flag=1}}
+{{dmg1=[[6d6 + ${totalB} + ?{DamageMod|0}]]}}
+{{dmg1type=Slashing}}
+{{dmg1crit=[[(2d6 + ${totalB} + ?{DamageMod|0})*2 + 4d6]]}}
+{{dmg2flag=1}}
+{{dmg2=[[3d6]]}}
+{{dmg2type=Fire&Bane}}
+{{dmg2crit=[[3d6]]}}`;
+        attackCode3.textContent = `&{template:pc}
+{{name=Sword}}
+{{type=attackdamage}}
+{{showchar=1}}
+{{charname=Lord Guber}}
+{{attack=1}}
+{{roll=[[1d20cs>17 + ${totalA} + ?{AttackMod|0}]]}}
+{{critconfirm=[[1d20 + ${totalA} + ?{AttackMod|0}]]}}
+{{atkvs=Melee+STR vs AC}}
+{{damage=1}}
+{{dmg1flag=1}}
+{{dmg1=[[2d6 + ${totalB} + ?{DamageMod|0}]]}}
+{{dmg1type=Slashing}}
+{{dmg1crit=[[(2d6 + ${totalB} + ?{DamageMod|0})*2]]}}
+{{dmg2flag=1}}
+{{dmg2=[[3d6]]}}
+{{dmg2type=Fire}}
+{{dmg2crit=[[1d6]]}}`;
+        attackCode4.textContent = `&{template:pc}
+{{name=Sword}}
+{{type=attackdamage}}
+{{showchar=1}}
+{{charname=Lord Guber}}
+{{attack=1}}
+{{roll=[[1d20cs>17 + ${totalA} + ?{AttackMod|0}]]}}
+{{critconfirm=[[1d20 + ${totalA} + ?{AttackMod|0}]]}}
+{{atkvs=Melee+STR vs AC}}
+{{damage=1}}
+{{dmg1flag=1}}
+{{dmg1=[[6d6 + ${totalB} + ?{DamageMod|0}]]}}
+{{dmg1type=Slashing}}
+{{dmg1crit=[[(6d6 + ${totalB} + ?{DamageMod|0})*2]]}}
+{{dmg2flag=1}}
+{{dmg2=[[1d6]]}}
+{{dmg2type=Fire}}
+{{dmg2crit=[[1d6]]}}`;
+      attackCode5.textContent = `&{template:pc}
+{{name=Sword}}
+{{type=attackdamage}}
+{{showchar=1}}
+{{charname=Lord Guber}}
+{{attack=1}}
+{{roll=[[1d20cs>17 + ${totalA} + ?{AttackMod|0}]]}}
+{{critconfirm=[[1d20 + ${totalA} + ?{AttackMod|0}]]}}
+{{atkvs=Melee+STR vs AC}}
+{{damage=1}}
+{{dmg1flag=1}}
+{{dmg1=[[3d6 + ${totalB} + 1 + ?{DamageMod|0}]]}}
+{{dmg1type=Slashing}}
+{{dmg1crit=[[(3d6 + ${totalB} + 1 + ?{DamageMod|0})*2]]}}
+{{dmg2flag=1}}
+{{dmg2=[[1d6]]}}
+{{dmg2type=Fire}}
+{{dmg2crit=[[1d6]]}}`;
+        attackCode6.textContent = `&{template:pc}
+{{name=Sword}}
+{{type=attackdamage}}
+{{showchar=1}}
+{{charname=Lord Guber}}
+{{attack=1}}
+{{roll=[[1d20cs>17 + ${totalA} + ?{AttackMod|0}]]}}
+{{critconfirm=[[1d20 + ${totalA} + ?{AttackMod|0}]]}}
+{{atkvs=Melee+STR vs AC}}
+{{damage=1}}
+{{dmg1flag=1}}
+{{dmg1=[[9d6 + ${totalB} + 1 + ?{DamageMod|0}]]}}
+{{dmg1type=Slashing}}
+{{dmg1crit=[[(3d6 + ${totalB} + 1 + ?{DamageMod|0})*2 + 6d6]]}}
+{{dmg2flag=1}}
+{{dmg2=[[1d6]]}}
+{{dmg2type=Fire}}
+{{dmg2crit=[[1d6]]}}`;
+
+    }
+
+      checkboxes.forEach((cb) => {
+        cb.addEventListener('change', updateTotals);
+      });
+
+      // Initial calculation on page load
+      updateTotals();
+    </script>
+  </body>
+</html>

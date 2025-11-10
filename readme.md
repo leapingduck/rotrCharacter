@@ -10,3 +10,32 @@ to do!
 - [ ] Checklists by DOM
 - [ ] Button to create new effect/weapon/etc..
 - [ ] Macro breaks down effects
+
+- [x]Challenged Foe
+- [x]Banner
+- [x]Power Attack
+- [x]Furious Focus
+- [X]Flaming Sword
+- [ ]Second Attack
+- [ ]Third Attack
+- [ ]Haste
+- [ ]Heroism
+- [ ]Enlarged
+
+- [ ]Vital Strike
+
+Weapons
+
+- [ ] +2 Greatsword (Giant Bane)
+- [ ] +1 Adamantine Warhammer
+  - [ ]1H
+  - [ ]2H
+- [ ] +1 Impact Greatsword cost
+- [ ] Dynamic Effect Toggles
+- [ ] Weapon Specific Alterations
+  - [ ]Impact
+  - [ ]Weapon Focus
+  - [ ]Weapon Item
+  - [x] Flaming (current in effects not tied to weapon)
+  - [ ] Bane
+        How to make stack? Add dice to array and concat?
