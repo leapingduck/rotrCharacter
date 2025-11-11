@@ -1,10 +1,10 @@
 to do!
 
-- [ ] Make a POC macro using logic from old ones
+- [X] Make a POC macro using logic from old ones
 - [ ] Abilities and spell cards
 - [ ] Calculate using ability scores instead of static numbers.
 - [ ] Make cards collapsible when clicked. One active per row, inactive shows a summary of what's active
-- [ ] Dynamic pieces for roll20 macros
+- [X] Dynamic pieces for roll20 macros
 - [ ] Possibly use a different macro
 - [ ] Add Billy
 - [ ] Checklists by DOM
@@ -16,13 +16,13 @@ to do!
 - [x]Power Attack
 - [x]Furious Focus
 - [X]Flaming Sword
-- [ ]Second Attack
-- [ ]Third Attack
+- [x]Second Attack
+- [x]Third Attack
 - [ ]Haste
 - [ ]Heroism
 - [ ]Enlarged
 
-- [ ]Vital Strike
+- [X]Vital Strike
 
 Weapons
 

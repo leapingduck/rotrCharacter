@@ -43,7 +43,7 @@ let damageBonus = 0;
 let damageOutput = damageBase + damageBonus;
 let weaponDice = '2d6';
 let vitalStrikeDamage = 0;
-let attackName = 'First Attack';
+let attackName = 'First';
 let damageAdditional = '';
 calculateMacro();
 
@@ -97,6 +97,7 @@ function applyRules() {
   damageBonus = 0;
   damageAdditional = '';
   critRange = 19;
+  attackName = 'First';
 
   const rules = [
     {
@@ -151,12 +152,14 @@ function applyRules() {
       when: (s) => s.secondAttack && !s.thirdAttack,
       then: () => {
         attackBonus -= 5;
+        attackName = 'Second';
       },
     },
     {
       when: (s) => s.thirdAttack && !s.secondAttack,
       then: () => {
         attackBonus -= 10;
+        attackName = 'Third';
       },
     },
     {
