@@ -10,7 +10,7 @@
     <div class="wrap">
       <section class="bento" id="grid">
         <!-- Attack -->
-        <article class="card attack" aria-labelledby="attack-h">
+        <article class="card attack glass-card" aria-labelledby="attack-h">
           <h2 id="attack-h">Offense</h2>
           <div class="body">
             <h3>Effects</h3>
@@ -42,6 +42,27 @@
                 type="checkbox"
                 id="challenge"
               />Challenge</label
+            >
+            <label class="custom-label"
+              ><input
+                class="checkbox effectCheckbox"
+                type="checkbox"
+                id="enlarge"
+              />Enlarge</label
+            >
+            <label class="custom-label"
+              ><input
+                class="checkbox effectCheckbox"
+                type="checkbox"
+                id="haste"
+              />Haste</label
+            >
+            <label class="custom-label"
+              ><input
+                class="checkbox effectCheckbox"
+                type="checkbox"
+                id="heroism"
+              />Heroism</label
             >
             <label class="custom-label"
               ><input
@@ -139,8 +160,11 @@
               />Giant Bane Greatsword (+2)</label
             >
             <label class="custom-label"
-              ><input class="effectCheckbox" type="checkbox" id="weapon2" />Impact Greatsword
-              (+1)</label
+              ><input
+                class="effectCheckbox"
+                type="checkbox"
+                id="weapon2"
+              />Impact Greatsword (+1)</label
             >
             <label class="custom-label"
               ><input type="checkbox" id="weapon3" />Adamantine Warhammer
@@ -162,6 +186,6 @@
       </section>
     </div>
 
-    <script src="scripts/scripts.js"></script>
+    <script type="module" src="scripts/app.js"></script>
   </body>
 </html>
