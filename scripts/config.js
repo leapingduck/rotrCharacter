@@ -26,20 +26,21 @@ export const damage = {
   untyped: [0],
 };
 
+// remove these bonuses from the rules and add here?
+// or weapons update and then a base rule checks for stuff like weapon focus?
 export const weapon = {
   critRange: 19,
   damageDice: "2d6",
 };
 
 export const macro = {
-  attackName: "Greatsword",
+  attackName: "First Attack",
   attackBonus: 0,
   vitalStrikeDamage: 0,
   damageBase: Math.floor(base.strBonus * 1.5),
   damageBonus: 0,
   damageOther: "",
   damageTotal: 0,
-  // vitalStrikeDamage: `${weapon.damageDice} + ${weapon.damageDice}`,
 };
 
 export function calculateAttack() {
@@ -104,9 +105,4 @@ export function calculateAttack() {
 //   '12d6',
 //   '12d8',
 //   '16d6',
-// ];
-
-// const weaponList = [
-//   { name: 'greatsword', damage: '2d6' },
-//   { name: 'warhammer', damage: '1d8' },
 // ];
