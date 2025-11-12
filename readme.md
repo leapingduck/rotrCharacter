@@ -1,5 +1,6 @@
 ## to do!
 ### General 
+
 - [x] Make a POC macro using logic from old ones
 - [x] Calculate using ability scores instead of static numbers.
 - [x] Dynamic pieces for roll20 macros
@@ -7,17 +8,18 @@
 - [ ] Macro breaks down calculations for spot checks
 
 ### Attacks
-- [x]Challenged Foe
-- [x]Banner
-- [x]Power Attack
-- [x]Furious Focus
-- [X]Flaming Sword
-- [x]Second Attack
-- [x]Third Attack
-- [x]Haste
-- [x]Heroism
-- [x]Enlarged
-- [X]Vital Strike
+
+- [x] Challenged Foe
+- [x] Banner
+- [x] Power Attack
+- [x] Furious Focus
+- [X] Flaming Sword
+- [x] Second Attack
+- [x] Third Attack
+- [x] Haste
+- [x] Heroism
+- [x] Enlarged
+- [X] Vital Strike
 - [ ] Add blink and include miss chance in roll.
 
 ### Weapons
