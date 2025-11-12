@@ -1,9 +1,6 @@
-import * as config from "./config.js";
-import { stateCheckboxes } from "./dom.js";
-import { calculateAttack } from "./config.js";
-import { calculateMacro } from "./macro.js";
-
-const effectCheckboxes = document.getElementsByClassName("effectCheckbox");
+import * as config from './config.js';
+import { stateCheckboxes } from './dom.js';
+import { calculateMacro } from './macro.js';
 
 const state = {
   powerAttack: false,
@@ -36,7 +33,8 @@ function applyRules() {
     arr.push(0);
   });
 
-  config.weapon.damageDice = "2d6";
+  config.macro.damageOther = '';
+  config.weapon.damageDice = '2d6';
   config.weapon.critRange = 19;
   //  -------------------------------------------------
 
@@ -54,7 +52,7 @@ function applyRules() {
       then: () => {
         state.error = true;
         output.innerHTML =
-          "You cannot have Furious Focus without Power Attack.";
+          'You cannot have Furious Focus without Power Attack.';
         return;
       },
     },
@@ -67,7 +65,7 @@ function applyRules() {
     {
       when: (s) => s.flamingWeapon,
       then: () => {
-        config.macro.damageOther = "1d6[Fire]";
+        config.macro.damageOther = '1d6[Fire]';
       },
     },
     {
@@ -133,7 +131,7 @@ function applyRules() {
         config.attack.item.push(1);
         config.attack.untyped.push(1);
         config.damage.item.push(1);
-        config.weapon.damageDice = "3d6";
+        config.weapon.damageDice = '3d6';
       },
     },
     {
@@ -141,20 +139,20 @@ function applyRules() {
       then: () => {
         config.attack.untyped.push(-1);
         // str += 1;
-        config.weapon.damageDice = "3d6";
+        config.weapon.damageDice = '3d6';
       },
     },
     {
       when: (s) => s.weapon2 && s.enlarge,
       then: () => {
-        config.weapon.damageDice = "4d6";
+        config.weapon.damageDice = '4d6';
       },
     },
     {
       when: (s) => s.weapon1 && s.weapon2,
       then: () => {
         state.error = true;
-        output.innerHTML = "Pick a weapon!";
+        output.innerHTML = 'Pick a weapon!';
         return;
       },
     },
@@ -190,24 +188,6 @@ function applyRules() {
 }
 
 export function handleStateChange() {
-  // Can this ve simplified?
-
-  // state.powerAttack = stateCheckboxes.powerAttack.checked;
-  // state.furiousFocus = stateCheckboxes.furiousFocus.checked;
-  // state.banner = stateCheckboxes.banner.checked;
-  // state.haste = stateCheckboxes.haste.checked;
-  // state.heroism = stateCheckboxes.heroism.checked;
-  // state.challenge = stateCheckboxes.challenge.checked;
-  // state.secondAttack = stateCheckboxes.secondAttack.checked;
-  // state.thirdAttack = stateCheckboxes.thirdAttack.checked;
-  // state.flamingWeapon = stateCheckboxes.flamingWeapon.checked;
-  // state.keen = stateCheckboxes.keenWeapon.checked;
-  // state.weapon1 = stateCheckboxes.weapon1.checked;
-  // state.weapon2 = stateCheckboxes.weapon2.checked;
-  // state.vitalStrike = stateCheckboxes.vitalStrike.checked;
-  // state.chargeAction = stateCheckboxes.chargeAction.checked;
-  // state.enlarge = stateCheckboxes.enlarge.checked;
-
   for (const checkbox of stateCheckboxes) {
     const id = checkbox.id;
     state[id] = checkbox.checked;

@@ -9,7 +9,8 @@
   <body>
     <div class="wrap">
       <section class="bento" id="grid">
-        <!-- Attack -->
+        <!-- Attacks -->
+        <!-- This could/should all be added via dom -->
         <article class="card attack glass-card" aria-labelledby="attack-h">
           <h2 id="attack-h">Offense</h2>
           <div class="body">
@@ -21,6 +22,7 @@
                 id="powerAttack"
               />Power Attack</label
             >
+            <!-- Would like to have description of each effect with an information icon/modal. Links to aonprd -->
             <!-- <small>-4 to hit and a +8 to damage</small> -->
             <label class="custom-label"
               ><input
@@ -29,6 +31,7 @@
                 id="furiousFocus"
               />Furious Focus</label
             >
+
             <label class="custom-label"
               ><input
                 class="checkbox state-checkbox"
@@ -36,6 +39,7 @@
                 id="banner"
               />Banner</label
             >
+
             <label class="custom-label"
               ><input
                 class="checkbox state-checkbox"
@@ -43,6 +47,7 @@
                 id="challenge"
               />Challenge</label
             >
+
             <label class="custom-label"
               ><input
                 class="checkbox state-checkbox"
@@ -50,6 +55,7 @@
                 id="enlarge"
               />Enlarge</label
             >
+
             <label class="custom-label"
               ><input
                 class="checkbox state-checkbox"
@@ -57,6 +63,7 @@
                 id="haste"
               />Haste</label
             >
+
             <label class="custom-label"
               ><input
                 class="checkbox state-checkbox"
@@ -64,6 +71,7 @@
                 id="heroism"
               />Heroism</label
             >
+
             <label class="custom-label"
               ><input
                 class="checkbox state-checkbox"
@@ -71,6 +79,7 @@
                 id="flamingWeapon"
               />Flaming</label
             >
+
             <label class="custom-label"
               ><input
                 class="checkbox state-checkbox"
@@ -78,6 +87,7 @@
                 id="secondAttack"
               />Second Attack</label
             >
+
             <label class="custom-label"
               ><input
                 class="checkbox state-checkbox"
@@ -85,6 +95,7 @@
                 id="thirdAttack"
               />Third Attack</label
             >
+
             <label class="custom-label"
               ><input
                 class="checkbox state-checkbox"
@@ -92,7 +103,10 @@
                 id="keenWeapon"
               />Keen</label
             >
+
             <h3>Action Types</h3>
+            <!-- full round attack here. Removed 1st and 2nd attack from above list -->
+            <!-- add fight defensively -->
             <label class="custom-label"
               ><input
                 type="checkbox"
@@ -100,6 +114,7 @@
                 id="chargeAction"
               />Charge</label
             >
+
             <label class="custom-label"
               ><input
                 class="state-checkbox"
@@ -107,23 +122,35 @@
                 id="vitalStrike"
               />Vital Strike</label
             >
+            <!-- add a calculation at the bottom. ie 1d20 + 14(BAB) + 6(STR) + 2(Item) etc... -->
           </div>
         </article>
 
-        <!-- Play (spans two rows) -->
+        <!-- Play Tab -->
+        <!-- Move to top on mobile -->
         <article class="card play" aria-labelledby="play-h">
           <h2 id="play-h">Play</h2>
           <div class="body">
+
+            <!-- add saves and AC totals here. Defense tab only shows effects and a running calculation at the bottom -->
             <h3>Output</h3>
+            <!-- replace with 4 rows. Beginning of row is a 75% wide code block that shows the start of the macro as a preview. Clicking pulls the whole macro -->
+            <!-- can I do my own syntax highlighting for the roll20 macros? Regex? -->
+            <!-- end of each row is a button that copies the macro to a clipboard -->
+            <!-- adjusts based on effects. ie - only one row for vital strake and it adds a second full bab attack for haste -->
             <h4>First Attack</h4>
-            <p class="" id="summaryFirst">loading</p>
             <div class="output" id="output">loading...</div>
             <h3>Loadouts</h3>
+            <div class="mono" style="opacity: 0.8">
+              here will be checklists for various loudouts. ie - standard is
+              power attack furious focus keen and +1 impact - etc...
+            </div>
           </div>
         </article>
 
         <!-- Defense -->
         <article class="card defense" aria-labelledby="defense-h">
+          <!-- haven't thought much here - AC stuff -->
           <h2 id="defense-h">Defense</h2>
           <div class="body">
             <label class="row" for="def-dodge">
@@ -131,6 +158,7 @@
               <span>Dodge</span>
             </label>
 
+            <!-- shield can't be active while 2h is in effect -->
             <label class="row" for="def-shield">
               <input id="def-shield" type="checkbox" />
               <span>Shield Active</span>
@@ -156,6 +184,7 @@
           <h2 id="items-h">Items</h2>
           <div class="body">
             <h2>Weapons</h2>
+            <!-- only one can be selected, and one HAS to be selected otherwise it defaults to fist -->
             <label class="custom-label"
               ><input
                 class="state-checkbox"
@@ -170,6 +199,7 @@
                 id="weapon2"
               />Impact Greatsword (+1)</label
             >
+            <!-- add 1h and 2h version -->
             <label class="custom-label"
               ><input type="checkbox" id="weapon3" />Adamantine Warhammer
               (+1)</label
@@ -184,7 +214,12 @@
         <article class="card misc" aria-labelledby="misc-h">
           <h2 id="misc-h">Misc</h2>
           <div class="body">
-            <div class="mono" style="opacity: 0.8">Notes and skills here.</div>
+            <div class="mono" style="opacity: 0.8">
+              Spell effects from others here
+            </div>
+            <div class="mono" style="opacity: 0.8">
+              Spell effects from others here
+            </div>
           </div>
         </article>
       </section>

@@ -80,6 +80,7 @@ export function calculateAttack() {
 }
 
 //-----------------------------------------------------------
+// Ideally, handle state change would pull from this array and apply 
 // const weaponAbilities = [
 //   { name: 'powerAttack', untypedAttack: -2, untypedDamage: 8 },
 //   { name: 'furiousFoucs' },

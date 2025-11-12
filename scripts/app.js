@@ -1,5 +1,5 @@
-import { calculateAttack } from "./config.js";
-import { calculateMacro } from "./macro.js";
-import { handleStateChange } from "./stateEngine.js";
+import { calculateMacro } from './macro.js';
+import { handleStateChange } from './stateEngine.js';
 
+handleStateChange();
 calculateMacro();
