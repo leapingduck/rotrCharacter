@@ -12,27 +12,24 @@ export const attack = {
   luck: [0],
   morale: [0],
   size: [0],
+  item: [0],
+  untyped: [0],
+  // attackName: "Full BAB",
 };
 
 export const damage = {
   enhancement: [0],
   luck: [0],
   morale: [0],
+  item: [0],
   profane: [0],
   sacred: [0],
 };
 
 const weapon = {
   critRange: 19,
-  damageDice: '2d6',
+  damageDice: "2d6",
 };
-
-const flamingWeapon = document.getElementById('flamingWeapon');
-const vitalStrike = document.getElementById('vitalStrike');
-const chargeAction = document.getElementById('chargeAction');
-const output = document.getElementById('output');
-const summaryFirst = document.getElementById('summaryFirst');
-const effectCheckboxes = document.getElementsByClassName('effectCheckbox');
 
 //-----------------------------------------------------------
 // const weaponAbilities = [

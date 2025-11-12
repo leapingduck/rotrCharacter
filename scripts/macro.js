@@ -1,29 +1,37 @@
-import { base, attack, damage } from './config.js';
+import { base, attack, damage } from "./config.js";
 
+const initialValue = 0;
 let attackBonus;
 let attackTotal;
 let damageBase = Math.floor(base.strBonus * 1.5);
 // let damageOutput = damageBase + damageBonus;
 // let macroDamageOther = '';
 
-function test() {
-  attack.circumstance.push(3);
-  attack.circumstance.push(2);
-  console.log(attack.circumstance);
-  console.log(Math.max(...attack.circumstance));
-}
+function test() {}
+
 export function calculateAttack() {
-  test();
+  let untypedbonus = attack.untyped.reduce(
+    (partialSum, a) => partialSum + a,
+    0
+  );
+
   attackBonus =
     Math.max(...attack.circumstance) +
     Math.max(...attack.competence) +
     Math.max(...attack.enhancement) +
     Math.max(...attack.insight) +
-    Math.max(...attack.luckgi);
+    Math.max(...attack.luck) +
+    Math.max(...attack.morale) +
+    Math.max(...attack.size) +
+    Math.max(...attack.item) +
+    untypedbonus;
 
   attackTotal = base.bab + base.strBonus + attackBonus;
-  console.log('hello');
   console.log(attackTotal);
+
+  // placeholder text ---------
+
+  document.getElementById("output").innerHTML = `/r 1d20 + ${attackTotal}`;
 }
 
 // export function calculateMacro() {

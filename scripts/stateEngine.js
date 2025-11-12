@@ -1,3 +1,9 @@
+import * as config from "./config.js";
+import { stateCheckboxes } from "./dom.js";
+import { calculateAttack } from "./macro.js";
+
+const effectCheckboxes = document.getElementsByClassName("effectCheckbox");
+
 const state = {
   powerAttack: false,
   furiousFocus: false,
@@ -19,20 +25,17 @@ const state = {
 
 function applyRules() {
   // reset
-  attackBonus = 0;
-  damageBonus = 0;
-  damageAdditional = '';
-  critRange = 19;
-  attackName = 'First';
-  str = 6;
-  weaponDice = '2d6';
+  Object.values(config.attack).forEach((arr) => {
+    arr.length = 0;
+    arr.push(0);
+  });
 
   const rules = [
     {
       when: (s) => s.powerAttack,
       then: () => {
-        attackBonus -= 4;
-        damageBonus += 12;
+        config.attack.untyped.push(-4);
+        // damageBonus += 12;
       },
     },
     {
@@ -40,60 +43,60 @@ function applyRules() {
       then: () => {
         state.error = true;
         output.innerHTML =
-          'You cannot have Furious Focus without Power Attack.';
+          "You cannot have Furious Focus without Power Attack.";
         return;
       },
     },
     {
       when: (s) => s.powerAttack && s.furiousFocus,
       then: () => {
-        attackBonus += 4;
+        config.attack.untyped.push(4);
       },
     },
     {
       when: (s) => s.flamingWeapon,
       then: () => {
-        damageAdditional = '1d6[Fire]';
+        // damageAdditional = "1d6[Fire]";
       },
     },
     {
       when: (s) => s.banner,
       then: () => {
-        attackBonus += 1;
-        damageBonus += 1;
+        config.attack.morale.push(1);
+        // damageBonus += 1;
       },
     },
     {
       when: (s) => s.challenge,
       then: () => {
-        attackBonus += 2;
-        damageBonus += 6;
+        config.attack.morale.push(2);
+        // damageBonus += 6;
       },
     },
     {
       when: (s) => s.heroism,
       then: () => {
-        attackBonus += 2;
+        config.attack.morale.push(2);
       },
     },
     {
       when: (s) => s.furiousFocus && s.secondAttack ^ s.thirdAttack,
       then: () => {
-        attackBonus -= 4;
+        config.attack.untyped.push(-4);
       },
     },
     {
       when: (s) => s.secondAttack && !s.thirdAttack,
       then: () => {
-        attackBonus -= 5;
-        attackName = 'Second';
+        config.attack.untyped.push(-5);
+        // attackName = "Second";
       },
     },
     {
       when: (s) => s.thirdAttack && !s.secondAttack,
       then: () => {
-        attackBonus -= 10;
-        attackName = 'Third';
+        config.attack.untyped.push(-10);
+        // attackName = "Third";
       },
     },
     {
@@ -108,56 +111,58 @@ function applyRules() {
     {
       when: (s) => s.weapon1,
       then: () => {
-        attackBonus += 3;
-        damageBonus += 2;
+        config.attack.item.push(2);
+        config.attack.untyped.push(1);
+        // damageBonus += 2;
       },
     },
     {
       when: (s) => s.weapon2,
       then: () => {
-        attackBonus += 2;
-        damageBonus += 1;
-        weaponDice = '3d6';
+        config.attack.item.push(1);
+        config.attack.untyped.push(1);
+        // damageBonus += 1;
+        // weaponDice = "3d6";
       },
     },
     {
       when: (s) => s.enlarge,
       then: () => {
-        attackBonus -= 1;
-        str += 1;
-        weaponDice = '3d6';
+        config.attack.untyped.push(-1);
+        // str += 1;
+        // weaponDice = "3d6";
       },
     },
     {
       when: (s) => s.weapon2 && s.enlarge,
       then: () => {
-        weaponDice = '4d6';
+        // weaponDice = "4d6";
       },
     },
     {
       when: (s) => s.weapon1 && s.weapon2,
       then: () => {
         state.error = true;
-        output.innerHTML = 'Pick a weapon!';
+        output.innerHTML = "Pick a weapon!";
         return;
       },
     },
     {
       when: (s) => s.keen,
       then: () => {
-        critRange = 17;
+        // critRange = 17;
       },
     },
     {
       when: (s) => s.haste,
       then: () => {
-        attackBonus += 1;
+        config.attack.untyped.push(1);
       },
     },
     {
       when: (s) => s.vitalStrike,
       then: () => {
-        vitalStrikeDamage = `${weaponDice} + ${weaponDice}`;
+        // vitalStrikeDamage = `${weaponDice} + ${weaponDice}`;
       },
     },
   ];
@@ -169,29 +174,30 @@ function applyRules() {
       if (state.error) return;
     }
   }
-  calculateMacro();
+
+  calculateAttack();
+  // calculateMacro();
 }
 
 export function handleStateChange() {
-  console.log('State Changed');
+  console.log("State Changed");
   // Update the state object based on checkbox values
-  state.powerAttack = effectCheckboxes.powerAttack.checked;
-  state.furiousFocus = effectCheckboxes.furiousFocus.checked;
-  state.banner = effectCheckboxes.banner.checked;
-  state.haste = effectCheckboxes.haste.checked;
-  state.heroism = effectCheckboxes.heroism.checked;
-  state.challenge = effectCheckboxes.challenge.checked;
-  state.secondAttack = effectCheckboxes.secondAttack.checked;
-  state.thirdAttack = effectCheckboxes.thirdAttack.checked;
-  state.flamingWeapon = flamingWeapon.checked;
-  state.keen = effectCheckboxes.keenWeapon.checked;
-  state.weapon1 = effectCheckboxes.weapon1.checked;
-  state.weapon2 = effectCheckboxes.weapon2.checked;
-  state.vitalStrike = vitalStrike.checked;
-  state.chargeAction = chargeAction.checked;
-  state.enlarge = effectCheckboxes.enlarge.checked;
+  state.powerAttack = stateCheckboxes.powerAttack.checked;
+  state.furiousFocus = stateCheckboxes.furiousFocus.checked;
+  state.banner = stateCheckboxes.banner.checked;
+  state.haste = stateCheckboxes.haste.checked;
+  state.heroism = stateCheckboxes.heroism.checked;
+  state.challenge = stateCheckboxes.challenge.checked;
+  state.secondAttack = stateCheckboxes.secondAttack.checked;
+  state.thirdAttack = stateCheckboxes.thirdAttack.checked;
+  state.flamingWeapon = stateCheckboxes.flamingWeapon.checked;
+  state.keen = stateCheckboxes.keenWeapon.checked;
+  state.weapon1 = stateCheckboxes.weapon1.checked;
+  state.weapon2 = stateCheckboxes.weapon2.checked;
+  state.vitalStrike = stateCheckboxes.vitalStrike.checked;
+  state.chargeAction = stateCheckboxes.chargeAction.checked;
+  state.enlarge = stateCheckboxes.enlarge.checked;
   state.error = false;
 
   applyRules();
-  applyClassBasedOnState();
 }
