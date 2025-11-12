@@ -1,17 +1,12 @@
 ## to do!
-
+### General 
 - [x] Make a POC macro using logic from old ones
-- [ ] Abilities and spell cards
-- [ ] Calculate using ability scores instead of static numbers.
-- [ ] Make cards collapsible when clicked. One active per row, inactive shows a summary of what's active
+- [x] Calculate using ability scores instead of static numbers.
 - [x] Dynamic pieces for roll20 macros
-- [ ] Possibly use a different macro
-- [ ] Add Billy
 - [ ] Checklists by DOM
-- [ ] Button to create new effect/weapon/etc..
-- [ ] Macro breaks down effects
-- [ ] Add blink and include miss chance in roll.
+- [ ] Macro breaks down calculations for spot checks
 
+### Attacks
 - [x]Challenged Foe
 - [x]Banner
 - [x]Power Attack
@@ -19,20 +14,20 @@
 - [X]Flaming Sword
 - [x]Second Attack
 - [x]Third Attack
-- [ ]Haste
-- [ ]Heroism
-- [ ]Enlarged
-
+- [x]Haste
+- [x]Heroism
+- [x]Enlarged
 - [X]Vital Strike
+- [ ] Add blink and include miss chance in roll.
 
-Weapons
-
-- [ ] +2 Greatsword (Giant Bane)
-- [ ] +1 Adamantine Warhammer
+### Weapons
+- [x] +2 Greatsword (Giant Bane)
+- [x] +1 Adamantine Warhammer
   - [ ]1H
-  - [ ]2H
-- [ ] +1 Impact Greatsword cost
+  - []2H (Currently 2h 
+- [x] +1 Impact Greatsword
 - [ ] Dynamic Effect Toggles
+  After DOM Task
 - [ ] Weapon Specific Alterations
   - [ ]Impact
   - [ ]Weapon Focus
@@ -41,7 +36,12 @@ Weapons
   - [ ] Bane
         How to make stack? Add dice to array and concat?
 
+### Some Days
+- [ ] Button to create new effect/weapon/etc..
+- [ ] Add Billy
+- [ ] Abilities and spell cards (For Billy)
+- [ ] Make cards collapsible when clicked. One active per row, inactive shows a summary of what's active
 
 ## Updates
-Inconvenient to goggle between attacks. Need to add a button to copy first second and third attacks, or work on outputting it all as a single macro. 
+Inconvenient to toggle between attacks. Need to add a button to copy first second and third attacks, or work on outputting it all as a single macro. 
 Also add a hasted macro that adds a second full bab attack
