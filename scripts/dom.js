@@ -11,7 +11,3 @@ export const domRef = {
 Array.from(stateCheckboxes).forEach((c) =>
   c.addEventListener("change", handleStateChange)
 );
-
-flamingWeapon.addEventListener("change", handleStateChange);
-vitalStrike.addEventListener("change", handleStateChange);
-chargeAction.addEventListener("change", handleStateChange);

@@ -1,6 +1,7 @@
 import * as config from "./config.js";
 import { stateCheckboxes } from "./dom.js";
-import { calculateAttack } from "./macro.js";
+import { calculateAttack } from "./config.js";
+import { calculateMacro } from "./macro.js";
 
 const effectCheckboxes = document.getElementsByClassName("effectCheckbox");
 
@@ -24,18 +25,28 @@ const state = {
 };
 
 function applyRules() {
-  // reset
+  // reset values ------------------------------------
   Object.values(config.attack).forEach((arr) => {
     arr.length = 0;
     arr.push(0);
   });
+
+  Object.values(config.damage).forEach((arr) => {
+    arr.length = 0;
+    arr.push(0);
+  });
+
+  config.weapon.damageDice = "2d6";
+  config.weapon.critRange = 19;
+  //  -------------------------------------------------
 
   const rules = [
     {
       when: (s) => s.powerAttack,
       then: () => {
         config.attack.untyped.push(-4);
-        // damageBonus += 12;
+        //two handed
+        config.damage.untyped.push(12);
       },
     },
     {
@@ -56,21 +67,21 @@ function applyRules() {
     {
       when: (s) => s.flamingWeapon,
       then: () => {
-        // damageAdditional = "1d6[Fire]";
+        config.macro.damageOther = "1d6[Fire]";
       },
     },
     {
       when: (s) => s.banner,
       then: () => {
         config.attack.morale.push(1);
-        // damageBonus += 1;
+        config.damage.morale.push(1);
       },
     },
     {
       when: (s) => s.challenge,
       then: () => {
         config.attack.morale.push(2);
-        // damageBonus += 6;
+        config.damage.morale.push(6);
       },
     },
     {
@@ -113,7 +124,7 @@ function applyRules() {
       then: () => {
         config.attack.item.push(2);
         config.attack.untyped.push(1);
-        // damageBonus += 2;
+        config.damage.item.push(2);
       },
     },
     {
@@ -121,8 +132,8 @@ function applyRules() {
       then: () => {
         config.attack.item.push(1);
         config.attack.untyped.push(1);
-        // damageBonus += 1;
-        // weaponDice = "3d6";
+        config.damage.item.push(1);
+        config.weapon.damageDice = "3d6";
       },
     },
     {
@@ -130,13 +141,13 @@ function applyRules() {
       then: () => {
         config.attack.untyped.push(-1);
         // str += 1;
-        // weaponDice = "3d6";
+        config.weapon.damageDice = "3d6";
       },
     },
     {
       when: (s) => s.weapon2 && s.enlarge,
       then: () => {
-        // weaponDice = "4d6";
+        config.weapon.damageDice = "4d6";
       },
     },
     {
@@ -148,9 +159,9 @@ function applyRules() {
       },
     },
     {
-      when: (s) => s.keen,
+      when: (s) => s.keenWeapon,
       then: () => {
-        // critRange = 17;
+        config.weapon.critRange = 17;
       },
     },
     {
@@ -162,7 +173,7 @@ function applyRules() {
     {
       when: (s) => s.vitalStrike,
       then: () => {
-        // vitalStrikeDamage = `${weaponDice} + ${weaponDice}`;
+        config.macro.vitalStrikeDamage = `${config.weapon.damageDice} + ${config.weapon.damageDice}`;
       },
     },
   ];
@@ -175,28 +186,32 @@ function applyRules() {
     }
   }
 
-  calculateAttack();
-  // calculateMacro();
+  calculateMacro();
 }
 
 export function handleStateChange() {
-  console.log("State Changed");
-  // Update the state object based on checkbox values
-  state.powerAttack = stateCheckboxes.powerAttack.checked;
-  state.furiousFocus = stateCheckboxes.furiousFocus.checked;
-  state.banner = stateCheckboxes.banner.checked;
-  state.haste = stateCheckboxes.haste.checked;
-  state.heroism = stateCheckboxes.heroism.checked;
-  state.challenge = stateCheckboxes.challenge.checked;
-  state.secondAttack = stateCheckboxes.secondAttack.checked;
-  state.thirdAttack = stateCheckboxes.thirdAttack.checked;
-  state.flamingWeapon = stateCheckboxes.flamingWeapon.checked;
-  state.keen = stateCheckboxes.keenWeapon.checked;
-  state.weapon1 = stateCheckboxes.weapon1.checked;
-  state.weapon2 = stateCheckboxes.weapon2.checked;
-  state.vitalStrike = stateCheckboxes.vitalStrike.checked;
-  state.chargeAction = stateCheckboxes.chargeAction.checked;
-  state.enlarge = stateCheckboxes.enlarge.checked;
+  // Can this ve simplified?
+
+  // state.powerAttack = stateCheckboxes.powerAttack.checked;
+  // state.furiousFocus = stateCheckboxes.furiousFocus.checked;
+  // state.banner = stateCheckboxes.banner.checked;
+  // state.haste = stateCheckboxes.haste.checked;
+  // state.heroism = stateCheckboxes.heroism.checked;
+  // state.challenge = stateCheckboxes.challenge.checked;
+  // state.secondAttack = stateCheckboxes.secondAttack.checked;
+  // state.thirdAttack = stateCheckboxes.thirdAttack.checked;
+  // state.flamingWeapon = stateCheckboxes.flamingWeapon.checked;
+  // state.keen = stateCheckboxes.keenWeapon.checked;
+  // state.weapon1 = stateCheckboxes.weapon1.checked;
+  // state.weapon2 = stateCheckboxes.weapon2.checked;
+  // state.vitalStrike = stateCheckboxes.vitalStrike.checked;
+  // state.chargeAction = stateCheckboxes.chargeAction.checked;
+  // state.enlarge = stateCheckboxes.enlarge.checked;
+
+  for (const checkbox of stateCheckboxes) {
+    const id = checkbox.id;
+    state[id] = checkbox.checked;
+  }
   state.error = false;
 
   applyRules();

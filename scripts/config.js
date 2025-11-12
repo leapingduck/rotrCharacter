@@ -14,7 +14,6 @@ export const attack = {
   size: [0],
   item: [0],
   untyped: [0],
-  // attackName: "Full BAB",
 };
 
 export const damage = {
@@ -24,12 +23,60 @@ export const damage = {
   item: [0],
   profane: [0],
   sacred: [0],
+  untyped: [0],
 };
 
-const weapon = {
+export const weapon = {
   critRange: 19,
   damageDice: "2d6",
 };
+
+export const macro = {
+  attackName: "Greatsword",
+  attackBonus: 0,
+  vitalStrikeDamage: 0,
+  damageBase: Math.floor(base.strBonus * 1.5),
+  damageBonus: 0,
+  damageOther: "",
+  damageTotal: 0,
+  // vitalStrikeDamage: `${weapon.damageDice} + ${weapon.damageDice}`,
+};
+
+export function calculateAttack() {
+  let untypedAttackBonus = attack.untyped.reduce(
+    (partialSum, a) => partialSum + a,
+    0
+  );
+
+  let untypedDamageBonus = damage.untyped.reduce(
+    (partialSum, a) => partialSum + a,
+    0
+  );
+
+  macro.damageBonus =
+    Math.max(...damage.enhancement) +
+    Math.max(...damage.luck) +
+    Math.max(...damage.morale) +
+    Math.max(...damage.item) +
+    Math.max(...damage.profane) +
+    Math.max(...damage.sacred) +
+    untypedDamageBonus;
+
+  macro.damageTotal = macro.damageBase + macro.damageBonus;
+
+  macro.attackBonus =
+    Math.max(...attack.circumstance) +
+    Math.max(...attack.competence) +
+    Math.max(...attack.enhancement) +
+    Math.max(...attack.insight) +
+    Math.max(...attack.luck) +
+    Math.max(...attack.morale) +
+    Math.max(...attack.size) +
+    Math.max(...attack.item) +
+    untypedAttackBonus;
+
+  macro.attackTotal = base.bab + base.strBonus + macro.attackBonus;
+}
 
 //-----------------------------------------------------------
 // const weaponAbilities = [
