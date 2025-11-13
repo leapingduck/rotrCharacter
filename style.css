@@ -1,23 +1,12 @@
 :root {
   --gap: 12px;
   --radius: 12px;
-  --border: 1px solid rgba(0, 0, 0, 0.1);
-  --bg: #f7f7f8;
-  --card: #ffffff;
-  --text: #222;
-  --muted: rgba(0, 0, 0, 0.6);
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --border: 1px solid #3a3a3a;
-    --bg: #1e1e1e;
-    --card: #2b2b2b;
-    --text: #f3f3f3;
-    --muted: rgba(255, 255, 255, 0.65);
-  }
-  input[type='checkbox'] {
-    accent-color: #4f8cff;
-  }
+  --border: 1px solid #3a3a3a;
+  --bg: #1e1e1e;
+  --card: #2b2b2b;
+  --text: #f3f3f3;
+  --muted: rgba(255, 255, 255, 0.65);
+  --muted-accent: #f28c2899;
 }
 
 html,
@@ -33,7 +22,10 @@ body {
   color: var(--text);
 }
 
-/* Wrapper fills the screen; outer padding matches the grid gap */
+input[type='checkbox'] {
+  accent-color: #f28c28;
+}
+
 .wrap {
   min-height: 100svh;
   padding: var(--gap);
@@ -44,10 +36,10 @@ body {
 
 .bento {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 0.25fr 1fr 1fr 1fr;
   grid-template-areas:
-    'attack play defense'
-    'items  play misc';
+    'menu attack play defense'
+    'menu items  play misc';
   gap: var(--gap);
   flex: 1;
   align-items: stretch;
@@ -58,7 +50,7 @@ body {
   background: #2b2b2bdd;
   border: var(--border);
   border-radius: var(--radius);
-  padding: var(--gap);
+  padding: 12px 2rem;
   display: flex;
   flex-direction: column;
   min-height: 120px;
@@ -68,9 +60,14 @@ body {
 .card h2 {
   font-size: 13px;
   line-height: 1;
-  margin: 0 0 8px 0;
+  margin: 0 auto 8px auto;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  color: var(--muted-accent);
+}
+
+.card h3 {
+  margin: 0 auto;
   color: var(--muted);
 }
 
@@ -88,6 +85,10 @@ body {
   align-items: center;
 }
 
+.menu {
+  grid-area: menu;
+  background-color: var(--muted-accent);
+}
 .attack {
   grid-area: attack;
 }

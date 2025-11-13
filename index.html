@@ -9,6 +9,13 @@
   <body>
     <div class="wrap">
       <section class="bento" id="grid">
+        <nav class="card menu glass-card">
+          <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+          </ul>
+        </nav>
         <!-- Attacks -->
         <!-- This could/should all be added via dom -->
         <article class="card attack glass-card" aria-labelledby="attack-h">
@@ -131,7 +138,6 @@
         <article class="card play" aria-labelledby="play-h">
           <h2 id="play-h">Play</h2>
           <div class="body">
-
             <!-- add saves and AC totals here. Defense tab only shows effects and a running calculation at the bottom -->
             <h3>Output</h3>
             <!-- replace with 4 rows. Beginning of row is a 75% wide code block that shows the start of the macro as a preview. Clicking pulls the whole macro -->
@@ -183,7 +189,7 @@
         <article class="card items" aria-labelledby="items-h">
           <h2 id="items-h">Items</h2>
           <div class="body">
-            <h2>Weapons</h2>
+            <h3>Weapons</h3>
             <!-- only one can be selected, and one HAS to be selected otherwise it defaults to fist -->
             <label class="custom-label"
               ><input
