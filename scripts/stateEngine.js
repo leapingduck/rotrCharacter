@@ -22,6 +22,7 @@ const state = {
 };
 
 function applyRules() {
+  // make function
   // reset values ------------------------------------
   Object.values(config.attack).forEach((arr) => {
     arr.length = 0;
@@ -37,6 +38,8 @@ function applyRules() {
   config.weapon.damageDice = '2d6';
   config.weapon.critRange = 19;
   //  -------------------------------------------------
+
+  // make validation function. Checks for stuff like if power attack is unchecked then make sure furious focus is unchecked
 
   const rules = [
     {

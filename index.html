@@ -22,31 +22,23 @@
           <div class="body">
             <h3>Effects</h3>
             <ul id="attackBuffs"></ul>
-            <!-- Would like to have description of each effect with an information icon/modal. Links to aonprd -->
-            <!-- <small>-4 to hit and a +8 to damage</small> -->
 
-            <h3 id="actionTypes">Action Types</h3>
+            <h3>Action Types</h3>
             <ul id="attackActions"></ul>
-            <h3 id="weaponEffects">Weapon Effects</h3>
-            <!-- would like this list to be dynamically populated based on the selected weapon -->
+
+            <h3>Weapon Effects</h3>
             <ul id="weaponEffectsList"></ul>
           </div>
         </article>
 
         <!-- Play Tab -->
-        <!-- Move to top on mobile -->
         <article class="card play" aria-labelledby="play-h">
           <h2 id="play-h">Play</h2>
           <div class="body">
             <!-- add saves and AC totals here. Defense tab only shows effects and a running calculation at the bottom -->
 
             <h3>Output</h3>
-            <!-- replace with 4 rows. Beginning of row is a 75% wide code block that shows the start of the macro as a preview. Clicking pulls the whole macro -->
-            <!-- can I do my own syntax highlighting for the roll20 macros? Regex? -->
-            <!-- end of each row is a button that copies the macro to a clipboard -->
-            <!-- adjusts based on effects. ie - only one row for vital strake and it adds a second full bab attack for haste -->
             <div class="flex-row">
-              <!-- clicking preview pulls up full macro with break down of bonus -->
               <div class="preview" id="output1">loading...</div>
               <button class="clipboard-button" id="output1-button">
                 loading...
