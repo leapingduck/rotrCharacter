@@ -10,126 +10,26 @@
     <div class="wrap">
       <section class="bento" id="grid">
         <nav class="card menu glass-card">
-          <ul>
+          <ul class="navigation" id="nav-list">
             <li>1</li>
             <li>2</li>
             <li>3</li>
           </ul>
         </nav>
         <!-- Attacks -->
-        <!-- This could/should all be added via dom -->
         <article class="card attack glass-card" aria-labelledby="attack-h">
           <h2 id="attack-h">Offense</h2>
           <div class="body">
             <h3>Effects</h3>
-            <label class="custom-label"
-              ><input
-                class="checkbox state-checkbox"
-                type="checkbox"
-                id="powerAttack"
-              />Power Attack</label
-            >
+            <ul id="attackBuffs"></ul>
             <!-- Would like to have description of each effect with an information icon/modal. Links to aonprd -->
             <!-- <small>-4 to hit and a +8 to damage</small> -->
-            <label class="custom-label"
-              ><input
-                class="checkbox state-checkbox"
-                type="checkbox"
-                id="furiousFocus"
-              />Furious Focus</label
-            >
 
-            <label class="custom-label"
-              ><input
-                class="checkbox state-checkbox"
-                type="checkbox"
-                id="banner"
-              />Banner</label
-            >
-
-            <label class="custom-label"
-              ><input
-                class="checkbox state-checkbox"
-                type="checkbox"
-                id="challenge"
-              />Challenge</label
-            >
-
-            <label class="custom-label"
-              ><input
-                class="checkbox state-checkbox"
-                type="checkbox"
-                id="enlarge"
-              />Enlarge</label
-            >
-
-            <label class="custom-label"
-              ><input
-                class="checkbox state-checkbox"
-                type="checkbox"
-                id="haste"
-              />Haste</label
-            >
-
-            <label class="custom-label"
-              ><input
-                class="checkbox state-checkbox"
-                type="checkbox"
-                id="heroism"
-              />Heroism</label
-            >
-
-            <label class="custom-label"
-              ><input
-                class="checkbox state-checkbox"
-                type="checkbox"
-                id="flamingWeapon"
-              />Flaming</label
-            >
-
-            <label class="custom-label"
-              ><input
-                class="checkbox state-checkbox"
-                type="checkbox"
-                id="secondAttack"
-              />Second Attack</label
-            >
-
-            <label class="custom-label"
-              ><input
-                class="checkbox state-checkbox"
-                type="checkbox"
-                id="thirdAttack"
-              />Third Attack</label
-            >
-
-            <label class="custom-label"
-              ><input
-                class="checkbox state-checkbox"
-                type="checkbox"
-                id="keenWeapon"
-              />Keen</label
-            >
-
-            <h3>Action Types</h3>
-            <!-- full round attack here. Removed 1st and 2nd attack from above list -->
-            <!-- add fight defensively -->
-            <label class="custom-label"
-              ><input
-                type="checkbox"
-                class="state-checkbox"
-                id="chargeAction"
-              />Charge</label
-            >
-
-            <label class="custom-label"
-              ><input
-                class="state-checkbox"
-                type="checkbox"
-                id="vitalStrike"
-              />Vital Strike</label
-            >
-            <!-- add a calculation at the bottom. ie 1d20 + 14(BAB) + 6(STR) + 2(Item) etc... -->
+            <h3 id="actionTypes">Action Types</h3>
+            <ul id="attackActions"></ul>
+            <h3 id="weaponEffects">Weapon Effects</h3>
+            <!-- would like this list to be dynamically populated based on the selected weapon -->
+            <ul id="weaponEffectsList"></ul>
           </div>
         </article>
 
@@ -139,13 +39,21 @@
           <h2 id="play-h">Play</h2>
           <div class="body">
             <!-- add saves and AC totals here. Defense tab only shows effects and a running calculation at the bottom -->
+
             <h3>Output</h3>
             <!-- replace with 4 rows. Beginning of row is a 75% wide code block that shows the start of the macro as a preview. Clicking pulls the whole macro -->
             <!-- can I do my own syntax highlighting for the roll20 macros? Regex? -->
             <!-- end of each row is a button that copies the macro to a clipboard -->
             <!-- adjusts based on effects. ie - only one row for vital strake and it adds a second full bab attack for haste -->
-            <h4>First Attack</h4>
-            <div class="output" id="output">loading...</div>
+            <div class="flex-row">
+              <!-- clicking preview pulls up full macro with break down of bonus -->
+              <div class="preview" id="output1">loading...</div>
+              <button class="clipboard-button" id="output1-button">
+                loading...
+              </button>
+            </div>
+            <h4 id="output1-label">First Attack</h4>
+
             <h3>Loadouts</h3>
             <div class="mono" style="opacity: 0.8">
               here will be checklists for various loudouts. ie - standard is
@@ -158,31 +66,8 @@
         <article class="card defense" aria-labelledby="defense-h">
           <!-- haven't thought much here - AC stuff -->
           <h2 id="defense-h">Defense</h2>
-          <div class="body">
-            <label class="row" for="def-dodge">
-              <input id="def-dodge" type="checkbox" />
-              <span>Dodge</span>
-            </label>
-
-            <!-- shield can't be active while 2h is in effect -->
-            <label class="row" for="def-shield">
-              <input id="def-shield" type="checkbox" />
-              <span>Shield Active</span>
-            </label>
-
-            <label class="row" for="def-cover">
-              <input id="def-cover" type="checkbox" />
-              <span>Cover</span>
-            </label>
-
-            <label class="row" for="def-conc">
-              <input id="def-conc" type="checkbox" />
-              <span>Concentrating</span>
-            </label>
-
-            <div class="muted">Status</div>
-            <div class="mono" id="def-preview">AC: Base</div>
-          </div>
+          <ul id="defenseEffectList"></ul>
+          <div class="body"></div>
         </article>
 
         <!-- Items -->
@@ -190,29 +75,7 @@
           <h2 id="items-h">Items</h2>
           <div class="body">
             <h3>Weapons</h3>
-            <!-- only one can be selected, and one HAS to be selected otherwise it defaults to fist -->
-            <label class="custom-label"
-              ><input
-                class="state-checkbox"
-                type="checkbox"
-                id="weapon1"
-              />Giant Bane Greatsword (+2)</label
-            >
-            <label class="custom-label"
-              ><input
-                class="state-checkbox"
-                type="checkbox"
-                id="weapon2"
-              />Impact Greatsword (+1)</label
-            >
-            <!-- add 1h and 2h version -->
-            <label class="custom-label"
-              ><input type="checkbox" id="weapon3" />Adamantine Warhammer
-              (+1)</label
-            >
-            <label class="custom-label mono"
-              ><input type="checkbox" id="weapon4" />Fist</label
-            >
+            <ul id="weaponList"></ul>
           </div>
         </article>
 
