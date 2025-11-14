@@ -105,14 +105,14 @@ export const weapons = [
     id: 'GS01',
     type: 'greatsword',
     itemBonus: 1,
-    effectIDs: ['flaming'],
+    effectIDs: ['flaming', 'keenWeapon'],
   },
   {
     name: 'Impact Greatsword (+1)',
     id: 'GS02',
     type: 'greatsword',
     itemBonus: 1,
-    effectIDs: ['impact'],
+    effectIDs: ['impactWeapon'],
   },
   {
     name: 'Adamantine Warhammer (+1)',

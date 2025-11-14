@@ -1,7 +1,8 @@
 import * as config from './config.js';
-import { stateCheckboxes } from './dom.js';
+import { stateCheckboxes, generateWeaponEffects } from './dom.js';
 import { calculateMacro } from './macro.js';
 
+// This can probably be created dynamically
 const state = {
   powerAttack: false,
   furiousFocus: false,
@@ -10,8 +11,8 @@ const state = {
   flamingWeapon: false,
   secondAttack: false,
   thirdAttack: false,
-  weapon1: false,
-  weapon2: false,
+  GS01: false,
+  GS02: false,
   heroism: false,
   vitalStrike: false,
   chargeAction: false,
@@ -33,7 +34,7 @@ function applyRules() {
     arr.length = 0;
     arr.push(0);
   });
-
+  document.querySelector('#weaponEffectsList').innerHTML = '';
   config.macro.damageOther = '';
   config.weapon.damageDice = '2d6';
   config.weapon.critRange = 19;
@@ -46,7 +47,6 @@ function applyRules() {
       when: (s) => s.powerAttack,
       then: () => {
         config.attack.untyped.push(-4);
-        //two handed
         config.damage.untyped.push(12);
       },
     },
@@ -121,20 +121,22 @@ function applyRules() {
       },
     },
     {
-      when: (s) => s.weapon1,
+      when: (s) => s.GS01,
       then: () => {
         config.attack.item.push(2);
         config.attack.untyped.push(1);
         config.damage.item.push(2);
+        generateWeaponEffects('GS01');
       },
     },
     {
-      when: (s) => s.weapon2,
+      when: (s) => s.GS02,
       then: () => {
         config.attack.item.push(1);
         config.attack.untyped.push(1);
         config.damage.item.push(1);
         config.weapon.damageDice = '3d6';
+        generateWeaponEffects('GS02');
       },
     },
     {
