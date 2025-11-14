@@ -137,17 +137,17 @@ export const weaponTypes = [
     damageDice: '2d6',
     damageType: 'slashing',
     hands: 2,
-    critRange:19,
+    critRange: 19,
     critMultiplier: 2,
-    weaponFocusBonus: 1
+    weaponFocusBonus: 1,
   },
   {
     name: 'warhammer',
     id: 'WH',
     damageDice: '1d8',
     damageType: 'bludgeoning',
-    hands: [1,2],
-    critRange:20,
+    hands: [1, 2],
+    critRange: 20,
     critMultiplier: 3,
   },
 ];

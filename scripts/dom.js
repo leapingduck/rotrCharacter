@@ -1,11 +1,21 @@
 import { handleStateChange } from './stateEngine.js';
 import { buffs, weapons } from './config.js';
 
-// in your loop
+// References -----------------------------------------------------
+export const stateCheckboxes =
+  document.getElementsByClassName('state-checkbox');
+
+export const domRef = {
+  output1: document.getElementById('output1'),
+  outputLabel1: document.getElementById('output1-label'),
+  outputButton1: document.querySelector('#output1-button'),
+};
+
+// DOM Management -------------------------------------------------
 
 export function pageLoad() {
-  generateBuffList();
   generateWeaponList();
+  generateBuffList();
 }
 
 function generateWeaponList() {
@@ -27,6 +37,9 @@ function generateWeaponList() {
 
     label.appendChild(checkbox);
     label.appendChild(document.createTextNode(weapon.name));
+
+    // doesn't run if empty array. Probably what I want?
+    weapon.effectIDs.forEach((effect) => generateWeaponEffects(weapon.id));
 
     li.appendChild(label);
     weaponContainer.appendChild(li);
@@ -66,19 +79,9 @@ function generateBuffList() {
   });
 }
 
-export const stateCheckboxes =
-  document.getElementsByClassName('state-checkbox');
-
-export const domRef = {
-  output1: document.getElementById('output1'),
-  outputLabel1: document.getElementById('output1-label'),
-  outputButton1: document.querySelector('#output1-button'),
-  // output2: document.getElementById("output2"),
-  // outputLabel2: document.getElementById("output2-label")
-  // output3: document.getElementById("output3"),
-  // outputLabel3: document.getElementById("output3-label")
-  // output4: document.getElementById("output4"),
-  // outputLabel4: document.getElementById("output4-label")
-  // output5: document.getElementById("output5"),
-  // outputLabel5: document.getElementById("output5-label")
-};
+function generateWeaponEffects(selectedWeapon) {
+  const activeWeapon = weapons.find((weapon) => weapon.id == selectedWeapon);
+  console.log(
+    `seaching for weapon ${activeWeapon.name} and making effects available`
+  );
+}
