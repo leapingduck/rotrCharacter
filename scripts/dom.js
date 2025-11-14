@@ -39,6 +39,7 @@ export function generateWeaponEffects(selectedWeapon) {
     const li = generateButton(effectID, effectName);
     weaponEffectsContainer.appendChild(li);
   });
+  console.log(stateCheckboxes);
 }
 
 function generateBuffList() {
