@@ -87,10 +87,6 @@ export const buffs = [
   { name: 'Enlarge', id: 'enlarge', type: 'attack' },
   { name: 'Haste', id: 'haste', type: 'attack' },
   { name: 'Heroism', id: 'heroism', type: 'attack' },
-  { name: 'Flaming Weapon', id: 'flaming', type: 'weapon' },
-  { name: 'Keen Weapon', id: 'keenWeapon', type: 'weapon' },
-  { name: 'Bane', id: 'baneWeapon', type: 'weapon' },
-  { name: 'Impact Weapon', id: 'impactWeapon', type: 'weapon' },
   { name: 'Second Attack', id: 'secondAttack', type: 'action' },
   { name: 'Third Attack', id: 'thirdAttack', type: 'action' },
   { name: 'Charge', id: 'chargeAction', type: 'action' },
@@ -99,13 +95,20 @@ export const buffs = [
   { name: 'Fight Defensively', id: 'fightDefensively', type: 'action' },
 ];
 
+export const weaponEffects = [
+  { name: 'Flaming Weapon', id: 'flaming', type: 'weapon' },
+  { name: 'Keen Weapon', id: 'keenWeapon', type: 'weapon' },
+  { name: 'Bane', id: 'baneWeapon', type: 'weapon' },
+  { name: 'Impact Weapon', id: 'impactWeapon', type: 'weapon' },
+];
+
 export const weapons = [
   {
     name: 'Flaming Giant Bane Greatsword (+1)',
     id: 'GS01',
     type: 'greatsword',
     itemBonus: 1,
-    effectIDs: ['flaming', 'keenWeapon'],
+    effectIDs: ['flaming', 'keenWeapon', 'baneWeapon'],
   },
   {
     name: 'Impact Greatsword (+1)',

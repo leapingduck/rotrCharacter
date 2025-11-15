@@ -34,7 +34,7 @@ function applyRules() {
     arr.length = 0;
     arr.push(0);
   });
-  document.querySelector('#weaponEffectsList').innerHTML = '';
+
   config.macro.damageOther = '';
   config.weapon.damageDice = '2d6';
   config.weapon.critRange = 19;
@@ -126,7 +126,6 @@ function applyRules() {
         config.attack.item.push(2);
         config.attack.untyped.push(1);
         config.damage.item.push(2);
-        generateWeaponEffects('GS01');
       },
     },
     {
@@ -136,7 +135,6 @@ function applyRules() {
         config.attack.untyped.push(1);
         config.damage.item.push(1);
         config.weapon.damageDice = '3d6';
-        generateWeaponEffects('GS02');
       },
     },
     {
@@ -192,12 +190,45 @@ function applyRules() {
   calculateMacro();
 }
 
+function updateWeaponEffectsUI() {
+  const weaponEffectsContainer = document.querySelector('#weaponEffectsList');
+
+  // 1. Clear current weapon effects
+  weaponEffectsContainer.innerHTML = '';
+
+  // 2. Decide which weapon is selected
+  let selectedWeaponId = null;
+
+  if (state.GS01 && !state.GS02) {
+    selectedWeaponId = 'GS01';
+  } else if (state.GS02 && !state.GS01) {
+    selectedWeaponId = 'GS02';
+  } else {
+    // no weapon or invalid combo, nothing to render
+    return;
+  }
+
+  // 3. Generate effects for the selected weapon
+  generateWeaponEffects(selectedWeaponId);
+
+  // 4. After generating, sync checkboxes from state
+  for (const checkbox of stateCheckboxes) {
+    const id = checkbox.id;
+
+    // only apply state if we track this id
+    if (Object.prototype.hasOwnProperty.call(state, id)) {
+      checkbox.checked = !!state[id];
+    }
+  }
+}
+
 export function handleStateChange() {
+  console.log('test');
   for (const checkbox of stateCheckboxes) {
     const id = checkbox.id;
     state[id] = checkbox.checked;
   }
   state.error = false;
-
+  updateWeaponEffectsUI();
   applyRules();
 }

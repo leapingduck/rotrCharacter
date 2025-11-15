@@ -1,5 +1,5 @@
 import { handleStateChange } from './stateEngine.js';
-import { buffs, weapon, weapons } from './config.js';
+import { buffs, weaponEffects, weapons } from './config.js';
 
 // References -----------------------------------------------------
 // newly created checkboxes are not in here so
@@ -21,7 +21,6 @@ export function pageLoad() {
 
 function generateWeaponList() {
   const weaponContainer = document.querySelector('#weaponList');
-  const weaponEffectsContainer = document.querySelector('#weaponEffects');
 
   weapons.forEach((weapon) => {
     const li = generateButton(weapon.id, weapon.name);
@@ -33,13 +32,13 @@ export function generateWeaponEffects(selectedWeapon) {
   const weaponEffectsContainer = document.querySelector('#weaponEffectsList');
   // need to validate weapon is only one selection
   const activeWeapon = weapons.find((weapon) => weapon.id == selectedWeapon);
+
   activeWeapon.effectIDs.forEach((effect) => {
-    const effectID = buffs.find((e) => e.id == effect).id;
-    const effectName = buffs.find((e) => e.id == effect).name;
+    const effectID = weaponEffects.find((e) => e.id == effect).id;
+    const effectName = weaponEffects.find((e) => e.id == effect).name;
     const li = generateButton(effectID, effectName);
     weaponEffectsContainer.appendChild(li);
   });
-  console.log(stateCheckboxes);
 }
 
 function generateBuffList() {
@@ -52,6 +51,8 @@ function generateBuffList() {
       effectContainer.appendChild(li);
     } else if (buff.type == 'action') {
       actionContainer.appendChild(li);
+    } else {
+      console.log('error');
     }
   });
 }
