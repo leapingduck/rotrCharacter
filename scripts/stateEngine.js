@@ -1,14 +1,15 @@
 import * as config from './config.js';
 import { stateCheckboxes, generateWeaponEffects, clearUI } from './dom.js';
-import { calculateMacro } from './macro.js';
+import { generateMacroOutput } from './macro.js';
 
 function buildInitialState() {
   const ids = [
     ...config.buffs.map((buff) => buff.id),
     ...config.weaponEffects.map((effect) => effect.id),
     ...config.weapons.map((weapon) => weapon.id),
+    ...config.actionTypes.map((action) => action.id),
   ];
-
+  console.log(ids);
   return ids.reduce(
     (acc, id) => {
       acc[id] = false;
@@ -32,18 +33,51 @@ function applyRules() {
     arr.length = 0;
     arr.push(0);
   });
-
+  let activeAction;
   config.macro.damageOther = '';
   config.weapon.damageDice = '2d6';
   config.weapon.critRange = 19;
   //  -------------------------------------------------
 
   // make validation function. Checks for stuff like if power attack is unchecked then make sure furious focus is unchecked
-
+  // Can't have more than one action type or more than one weapon at a time,
   //this def should go elsewhere, but its going here for now.
   clearUI();
 
   const rules = [
+    {
+      when: (s) => s.chargeAction,
+      then: () => {
+        config.attack.untyped.push(-400);
+        activeAction = 'chargeAction';
+        console.log('Charge');
+      },
+    },
+    {
+      when: (s) => s.fullRoundAttack,
+      then: () => {
+        config.attack.untyped.push(-200);
+        activeAction = 'fullRoundAttack';
+        console.log('Full Round');
+      },
+    },
+    {
+      when: (s) => s.fightDefensively,
+      then: () => {
+        config.attack.untyped.push(-200);
+        activeAction = 'fightDefensively';
+        console.log('Fight Defensively');
+      },
+    },
+    {
+      when: (s) => s.vitalStrike,
+      then: () => {
+        config.attack.untyped.push(-100);
+        activeAction = 'vitalStrike';
+        console.log('Vital Strike');
+        // config.macro.vitalStrikeDamage = `${config.weapon.damageDice} + ${config.weapon.damageDice}`;
+      },
+    },
     {
       when: (s) => s.powerAttack,
       then: () => {
@@ -88,26 +122,6 @@ function applyRules() {
       when: (s) => s.heroism,
       then: () => {
         config.attack.morale.push(2);
-      },
-    },
-    {
-      when: (s) => s.furiousFocus && s.secondAttack ^ s.thirdAttack,
-      then: () => {
-        config.attack.untyped.push(-4);
-      },
-    },
-    {
-      when: (s) => s.secondAttack && !s.thirdAttack,
-      then: () => {
-        config.attack.untyped.push(-5);
-        // attackName = "Second";
-      },
-    },
-    {
-      when: (s) => s.thirdAttack && !s.secondAttack,
-      then: () => {
-        config.attack.untyped.push(-10);
-        // attackName = "Third";
       },
     },
     {
@@ -160,12 +174,6 @@ function applyRules() {
         config.attack.untyped.push(1);
       },
     },
-    {
-      when: (s) => s.vitalStrike,
-      then: () => {
-        config.macro.vitalStrikeDamage = `${config.weapon.damageDice} + ${config.weapon.damageDice}`;
-      },
-    },
   ];
 
   // Apply the rules
@@ -176,7 +184,7 @@ function applyRules() {
     }
   }
 
-  calculateMacro();
+  generateMacroOutput(activeAction);
 }
 
 function updateWeaponEffectsUI() {

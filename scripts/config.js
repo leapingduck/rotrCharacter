@@ -43,16 +43,16 @@ export const macro = {
   damageTotal: 0,
 };
 
-export function calculateAttack() {
-  let untypedAttackBonus = attack.untyped.reduce(
-    (partialSum, a) => partialSum + a,
-    0
-  );
+export function calculateAttack(map) {
+  if (map == 'map-5') {
+    attack.untyped.push(-5);
+  }
+  if (map == 'map-10') {
+    attack.untyped.push(-10);
+  }
+  let untypedAttackBonus = attack.untyped.reduce((acc, a) => acc + a, 0);
 
-  let untypedDamageBonus = damage.untyped.reduce(
-    (partialSum, a) => partialSum + a,
-    0
-  );
+  let untypedDamageBonus = damage.untyped.reduce((acc, a) => acc + a, 0);
 
   macro.damageBonus =
     Math.max(...damage.enhancement) +
@@ -87,12 +87,33 @@ export const buffs = [
   { name: 'Enlarge', id: 'enlarge', type: 'attack' },
   { name: 'Haste', id: 'haste', type: 'attack' },
   { name: 'Heroism', id: 'heroism', type: 'attack' },
-  { name: 'Second Attack', id: 'secondAttack', type: 'action' },
-  { name: 'Third Attack', id: 'thirdAttack', type: 'action' },
-  { name: 'Charge', id: 'chargeAction', type: 'action' },
-  { name: 'Vital Strike', id: 'vitalStrike', type: 'action' },
-  { name: 'Full Round Attack', id: 'fullRoundAttack', type: 'action' },
-  { name: 'Fight Defensively', id: 'fightDefensively', type: 'action' },
+];
+
+export const actionTypes = [
+  {
+    name: 'Charge',
+    id: 'chargeAction',
+    type: 'action',
+    actions: ['fullBAB'],
+  },
+  {
+    name: 'Vital Strike',
+    id: 'vitalStrike',
+    type: 'action',
+    actions: ['fullBAB'],
+  },
+  {
+    name: 'Full Round Attack',
+    id: 'fullRoundAttack',
+    type: 'action',
+    actions: ['fullBAB', 'map-5', 'map-10'],
+  },
+  {
+    name: 'Fight Defensively',
+    id: 'fightDefensively',
+    type: 'action',
+    actions: ['fullBAB'],
+  },
 ];
 
 export const weaponEffects = [
@@ -101,6 +122,11 @@ export const weaponEffects = [
   { name: 'Bane', id: 'baneWeapon', type: 'weapon' },
   { name: 'Impact Weapon', id: 'impactWeapon', type: 'weapon' },
   { name: 'Weapon Focus', id: 'focusWeapon', type: 'weapon' },
+];
+
+export const spellEffects = [
+  // Add Dropdown for some things?
+  { name: 'Keen Weapon', id: '', type: '', source: 'Billy - Rune Something' },
 ];
 
 export const weapons = [

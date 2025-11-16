@@ -1,5 +1,5 @@
 import { handleStateChange } from './stateEngine.js';
-import { buffs, weaponEffects, weapons } from './config.js';
+import { actionTypes, buffs, weaponEffects, weapons } from './config.js';
 
 // References -----------------------------------------------------
 export const stateCheckboxes =
@@ -16,9 +16,10 @@ export const domRef = {
 export function pageLoad() {
   generateWeaponList();
   generateBuffList();
+  generateActionList();
 }
 
-export function createMacroOutput(macro, name) {
+export function createMacroElement(macro, name) {
   const row = document.createElement('div');
   row.className = 'flex-row clear-item';
 
@@ -47,45 +48,6 @@ export function clearUI() {
     item.remove();
   });
 }
-// Check Lists ----------------------------------------------------
-
-function generateWeaponList() {
-  const weaponContainer = document.querySelector('#weaponList');
-
-  weapons.forEach((weapon) => {
-    const li = generateButton(weapon.id, weapon.name);
-    weaponContainer.appendChild(li);
-  });
-}
-
-export function generateWeaponEffects(selectedWeapon) {
-  const weaponEffectsContainer = document.querySelector('#weaponEffectsList');
-  // need to validate weapon is only one selection
-  const activeWeapon = weapons.find((weapon) => weapon.id == selectedWeapon);
-
-  activeWeapon.effectIDs.forEach((effect) => {
-    //error handling
-    const selectedEffect = weaponEffects.find((e) => e.id == effect);
-    const li = generateButton(selectedEffect.id, selectedEffect.name);
-    weaponEffectsContainer.appendChild(li);
-  });
-}
-
-function generateBuffList() {
-  const effectContainer = document.querySelector('#attackBuffs');
-  const actionContainer = document.querySelector('#attackActions');
-
-  buffs.forEach((buff) => {
-    const li = generateButton(buff.id, buff.name);
-    if (buff.type == 'attack') {
-      effectContainer.appendChild(li);
-    } else if (buff.type == 'action') {
-      actionContainer.appendChild(li);
-    } else {
-      console.log('error');
-    }
-  });
-}
 
 export function generateButton(id, name) {
   const li = document.createElement('li');
@@ -107,4 +69,47 @@ export function generateButton(id, name) {
   li.appendChild(label);
 
   return li;
+}
+// Check Lists ----------------------------------------------------
+
+function generateWeaponList() {
+  const weaponContainer = document.querySelector('#weaponList');
+
+  weapons.forEach((weapon) => {
+    const li = generateButton(weapon.id, weapon.name);
+    weaponContainer.appendChild(li);
+  });
+}
+
+function generateActionList() {
+  const actionContainer = document.querySelector('#attackActions');
+
+  actionTypes.forEach((action) => {
+    const li = generateButton(action.id, action.name);
+    actionContainer.appendChild(li);
+  });
+}
+
+function generateBuffList() {
+  const effectContainer = document.querySelector('#attackBuffs');
+
+  buffs.forEach((buff) => {
+    const li = generateButton(buff.id, buff.name);
+    effectContainer.appendChild(li);
+  });
+}
+
+//Generates weapon related effects after the list weapon is selected
+//Add the header here so it doesn't show up until a weapon is selected? ##TODO
+export function generateWeaponEffects(selectedWeapon) {
+  const weaponEffectsContainer = document.querySelector('#weaponEffectsList');
+  // need to validate weapon is only one selection
+  const activeWeapon = weapons.find((weapon) => weapon.id == selectedWeapon);
+
+  activeWeapon.effectIDs.forEach((effect) => {
+    //error handling
+    const selectedEffect = weaponEffects.find((e) => e.id == effect);
+    const li = generateButton(selectedEffect.id, selectedEffect.name);
+    weaponEffectsContainer.appendChild(li);
+  });
 }

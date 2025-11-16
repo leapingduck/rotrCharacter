@@ -1,10 +1,20 @@
 import * as config from './config.js';
-import { domRef, createMacroOutput } from './dom.js';
+import { domRef, createMacroElement } from './dom.js';
 
 let macroDamageOther;
 
-export function calculateMacro() {
-  config.calculateAttack();
+export function generateMacroOutput(actionType) {
+  const currentAction = config.actionTypes.find((a) => a.id == actionType);
+
+  currentAction.actions.forEach((a) => {
+    console.log(a);
+    const macroComplete = calculateMacro(a);
+    createMacroElement(macroComplete, actionType);
+  });
+}
+
+function calculateMacro(actionName) {
+  config.calculateAttack(actionName);
 
   let macroPrefix = `&{template:pc}{{name=${config.macro.attackName}}}{{type=attackdamage}}{{showchar=1}}{{charname=Lord Guber}}{{attack=1}}`;
 
@@ -20,7 +30,5 @@ export function calculateMacro() {
   const macroComplete =
     macroPrefix + macroRoll + macroDamage + macroDamageOther;
 
-  createMacroOutput(macroComplete, 'firstAttack');
-  // domRef.outputLabel1.innerHTML = `First Attack: 1d20 + ${config.macro.attackTotal}(${config.base.bab} + ${config.base.strBonus} + ${config.macro.attackBonus})`;
-  // domRef.outputButton1.innerHTML = config.macro.attackName;
+  return macroComplete;
 }

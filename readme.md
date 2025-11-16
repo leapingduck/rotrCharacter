@@ -16,6 +16,7 @@
 - [ ] index.html (lines 49-53) – Replace the placeholder loadout paragraph with a DOM-driven checklist: define loadout presets in config and have dom.js render each preset plus its associated buff toggles dynamically.
 - [ ] index.html (lines 58-63) – Create a Defense configuration array and populate #defenseEffectList via DOM so armor, shield, and situational bonuses can be toggled the same way attack buffs are.
 - [ ] index.html (lines 75-83) – Build a data model for allied spell effects and render those entries dynamically in the Misc card instead of the duplicated placeholder <div> blocks.
+- [ ] Update layout to three grid columns and flex inside.
 
 ### Attacks
 
