@@ -6,6 +6,7 @@
   --card: #2b2b2b;
   --text: #f3f3f3;
   --muted: rgba(255, 255, 255, 0.65);
+  --muted-20: rgba(255, 255, 255, 0.2);
   --muted-accent: #f28c2899;
 }
 
@@ -18,12 +19,19 @@ body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
     'Apple Color Emoji', 'Segoe UI Emoji';
-  background-image: url(./background.jpg);
+  background-image: url(./assets/background.jpg);
   color: var(--text);
 }
 
 input[type='checkbox'] {
   accent-color: #f28c28;
+}
+
+ul,
+li {
+  margin: 0;
+  list-style: none;
+  padding-inline-start: 0;
 }
 
 .wrap {
@@ -36,10 +44,10 @@ input[type='checkbox'] {
 
 .bento {
   display: grid;
-  grid-template-columns: 0.25fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas:
-    'menu attack play defense'
-    'menu items  play misc';
+    'attack play defense'
+    'items  play misc';
   gap: var(--gap);
   flex: 1;
   align-items: stretch;
@@ -50,7 +58,7 @@ input[type='checkbox'] {
   background: #2b2b2bdd;
   border: var(--border);
   border-radius: var(--radius);
-  padding: 12px 2rem;
+  padding: 4px 2rem;
   display: flex;
   flex-direction: column;
   min-height: 120px;
@@ -58,9 +66,9 @@ input[type='checkbox'] {
 }
 
 .card h2 {
-  font-size: 13px;
+  font-size: 1.5rem;
   line-height: 1;
-  margin: 0 auto 8px auto;
+  margin: 0px auto var(--gap) auto;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--muted-accent);
@@ -71,11 +79,54 @@ input[type='checkbox'] {
   color: var(--muted);
 }
 
+.card h4 {
+  font-size: 0.75rem;
+  line-height: 1;
+  margin: 0 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted-accent);
+}
+
+.clipboard-button {
+  display: inline;
+  color: #f28c28;
+}
+
+.checklist-label {
+  display: inline-block;
+  margin: 2px;
+  border-radius: var(--radius);
+  padding: 0 var(--gap);
+  background-color: var(--muted-20);
+  width: 90%;
+}
+
 .body {
   flex: 1;
   display: grid;
   gap: 8px;
   align-content: start;
+}
+
+.preview {
+  display: inline-block;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  padding: 5px;
+  background-color: var(--bg);
+  border: solid 1px var(--muted);
+  min-width: 200px;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flex-row {
+  max-width: 100%;
+  display: flex;
+  gap: var(--gap);
 }
 
 .row {

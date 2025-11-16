@@ -1,6 +1,5 @@
 import * as config from './config.js';
-import { domRef } from './dom.js';
-let tempTotal;
+import { domRef, createMacroOutput } from './dom.js';
 
 let macroDamageOther;
 
@@ -18,9 +17,10 @@ export function calculateMacro() {
   } else {
     macroDamageOther = '';
   }
-  const macroFull = macroPrefix + macroRoll + macroDamage + macroDamageOther;
+  const macroComplete =
+    macroPrefix + macroRoll + macroDamage + macroDamageOther;
 
-  tempTotal = config.base.bab + config.base.strBonus + config.macro.attackBonus;
-
-  domRef.output.innerHTML = macroFull;
+  createMacroOutput(macroComplete, 'firstAttack');
+  // domRef.outputLabel1.innerHTML = `First Attack: 1d20 + ${config.macro.attackTotal}(${config.base.bab} + ${config.base.strBonus} + ${config.macro.attackBonus})`;
+  // domRef.outputButton1.innerHTML = config.macro.attackName;
 }
