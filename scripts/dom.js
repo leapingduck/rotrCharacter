@@ -2,7 +2,6 @@ import { handleStateChange } from './stateEngine.js';
 import { buffs, weaponEffects, weapons } from './config.js';
 
 // References -----------------------------------------------------
-// newly created checkboxes are not in here so
 export const stateCheckboxes =
   document.getElementsByClassName('state-checkbox');
 
@@ -12,12 +11,43 @@ export const domRef = {
   outputButton1: document.querySelector('#output1-button'),
 };
 
-// DOM Management -------------------------------------------------
+// DOM ____________________________________________________________
 
 export function pageLoad() {
   generateWeaponList();
   generateBuffList();
 }
+
+export function createMacroOutput(macro, name) {
+  const row = document.createElement('div');
+  row.className = 'flex-row clear-item';
+
+  const preview = document.createElement('preview');
+  preview.id = `${name}-ouput`;
+  preview.className = 'preview';
+  preview.appendChild(document.createTextNode(macro));
+
+  const macroOutput = document.querySelector('#macroOutput');
+  row.appendChild(preview);
+
+  const button = document.createElement('button');
+  button.className = 'clipboard-button';
+  button.appendChild(document.createTextNode('First Attack'));
+  button.addEventListener('click', () => {
+    navigator.clipboard.writeText(macro);
+  });
+  row.appendChild(button);
+
+  macroOutput.appendChild(row);
+}
+
+export function clearUI() {
+  const clearItems = document.querySelectorAll('.clear-item');
+  clearItems.forEach((item) => {
+    item.remove();
+  });
+}
+// Check Lists ----------------------------------------------------
 
 function generateWeaponList() {
   const weaponContainer = document.querySelector('#weaponList');
@@ -34,9 +64,9 @@ export function generateWeaponEffects(selectedWeapon) {
   const activeWeapon = weapons.find((weapon) => weapon.id == selectedWeapon);
 
   activeWeapon.effectIDs.forEach((effect) => {
-    const effectID = weaponEffects.find((e) => e.id == effect).id;
-    const effectName = weaponEffects.find((e) => e.id == effect).name;
-    const li = generateButton(effectID, effectName);
+    //error handling
+    const selectedEffect = weaponEffects.find((e) => e.id == effect);
+    const li = generateButton(selectedEffect.id, selectedEffect.name);
     weaponEffectsContainer.appendChild(li);
   });
 }

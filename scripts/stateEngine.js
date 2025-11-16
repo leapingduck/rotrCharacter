@@ -1,26 +1,24 @@
 import * as config from './config.js';
-import { stateCheckboxes, generateWeaponEffects } from './dom.js';
+import { stateCheckboxes, generateWeaponEffects, clearUI } from './dom.js';
 import { calculateMacro } from './macro.js';
 
-// This can probably be created dynamically
-const state = {
-  powerAttack: false,
-  furiousFocus: false,
-  banner: false,
-  challenge: false,
-  flamingWeapon: false,
-  secondAttack: false,
-  thirdAttack: false,
-  GS01: false,
-  GS02: false,
-  heroism: false,
-  vitalStrike: false,
-  chargeAction: false,
-  keenWeapon: false,
-  haste: false,
-  enlarge: false,
-  error: false,
-};
+function buildInitialState() {
+  const ids = [
+    ...config.buffs.map((buff) => buff.id),
+    ...config.weaponEffects.map((effect) => effect.id),
+    ...config.weapons.map((weapon) => weapon.id),
+  ];
+
+  return ids.reduce(
+    (acc, id) => {
+      acc[id] = false;
+      return acc;
+    },
+    { error: false }
+  );
+}
+
+const state = buildInitialState();
 
 function applyRules() {
   // make function
@@ -42,6 +40,9 @@ function applyRules() {
 
   // make validation function. Checks for stuff like if power attack is unchecked then make sure furious focus is unchecked
 
+  //this def should go elsewhere, but its going here for now.
+  clearUI();
+
   const rules = [
     {
       when: (s) => s.powerAttack,
@@ -54,8 +55,6 @@ function applyRules() {
       when: (s) => s.furiousFocus && !s.powerAttack,
       then: () => {
         state.error = true;
-        output.innerHTML =
-          'You cannot have Furious Focus without Power Attack.';
         return;
       },
     },
@@ -112,20 +111,11 @@ function applyRules() {
       },
     },
     {
-      when: (s) => s.thirdAttack && s.secondAttack,
-      then: () => {
-        state.error = true;
-        output.innerHTML =
-          "Can't select second and third attack at the same time.";
-        return;
-      },
-    },
-    {
       when: (s) => s.GS01,
       then: () => {
-        config.attack.item.push(2);
+        config.attack.item.push(1);
         config.attack.untyped.push(1);
-        config.damage.item.push(2);
+        config.damage.item.push(1);
       },
     },
     {
@@ -155,7 +145,6 @@ function applyRules() {
       when: (s) => s.weapon1 && s.weapon2,
       then: () => {
         state.error = true;
-        output.innerHTML = 'Pick a weapon!';
         return;
       },
     },
@@ -223,7 +212,6 @@ function updateWeaponEffectsUI() {
 }
 
 export function handleStateChange() {
-  console.log('test');
   for (const checkbox of stateCheckboxes) {
     const id = checkbox.id;
     state[id] = checkbox.checked;

@@ -26,7 +26,7 @@ export const damage = {
   untyped: [0],
 };
 
-// this will become activeWeapon. weapon.js will update this before calculateMacro runs
+// this might become activeWeapon. weapon.js will update this before calculateMacro runs
 export const weapon = {
   critRange: 19,
   damageDice: '2d6',
@@ -96,10 +96,11 @@ export const buffs = [
 ];
 
 export const weaponEffects = [
-  { name: 'Flaming Weapon', id: 'flaming', type: 'weapon' },
+  { name: 'Flaming Weapon', id: 'flamingWeapon', type: 'weapon' },
   { name: 'Keen Weapon', id: 'keenWeapon', type: 'weapon' },
   { name: 'Bane', id: 'baneWeapon', type: 'weapon' },
   { name: 'Impact Weapon', id: 'impactWeapon', type: 'weapon' },
+  { name: 'Weapon Focus', id: 'focusWeapon', type: 'weapon' },
 ];
 
 export const weapons = [
@@ -108,14 +109,14 @@ export const weapons = [
     id: 'GS01',
     type: 'greatsword',
     itemBonus: 1,
-    effectIDs: ['flaming', 'keenWeapon', 'baneWeapon'],
+    effectIDs: ['flamingWeapon', 'keenWeapon', 'baneWeapon', 'focusWeapon'],
   },
   {
     name: 'Impact Greatsword (+1)',
     id: 'GS02',
     type: 'greatsword',
     itemBonus: 1,
-    effectIDs: ['impactWeapon'],
+    effectIDs: ['impactWeapon', 'focusWeapon'],
   },
   {
     name: 'Adamantine Warhammer (+1)',
@@ -142,7 +143,6 @@ export const weaponTypes = [
     hands: 2,
     critRange: 19,
     critMultiplier: 2,
-    weaponFocusBonus: 1,
   },
   {
     name: 'warhammer',
