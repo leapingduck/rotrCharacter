@@ -3,7 +3,7 @@ import { domRef, createMacroElement } from './dom.js';
 
 let macroPrefix = `&{template:pc}{{name=${config.macro.attackName}}}{{type=attackdamage}}{{showchar=1}}{{charname=Lord Guber}}{{attack=1}}`;
 
-let macroRoll = `{{roll=[[1d20cs>${config.weapon.critRange} + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff]]]}}{{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff]]]}}{{atkvs=Melee+STR vs AC}}`;
+let macroRoll = `{{roll=[[1d20cs>${config.weapon.critRange} + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] + ?{AttackMod|0}]]}}{{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] ?{AttackMod|0} ]]}}{{atkvs=Melee+STR vs AC}}`;
 
 let macroDamage = `{{damage=1}}{{dmg1flag=1}}{{dmg1=[[${config.weapon.damageDice} + ${config.macro.vitalStrikeDamage} + ${config.macro.damageTotal}]]}}{{dmg1type=Slashing}}{{dmg1crit=[[(${config.weapon.damageDice} + ${config.macro.damageTotal})*2 + ${config.macro.vitalStrikeDamage}]]}}`;
 
@@ -19,13 +19,19 @@ export function generateMacroOutput(actionType) {
     });
 
     if (currentAction.actions.length > 1) {
-      const macroMulti = calculateMacroMulti();
+      const macroMulti = calculateMacroMulti(actionType);
       createMacroElement(macroMulti, actionType);
     }
   }
 }
 function calculateMacroSingle(actionName) {
   config.calculateAttack(actionName);
+
+  let macroPrefix = `&{template:pc}{{name=${config.macro.attackName}}}{{type=attackdamage}}{{showchar=1}}{{charname=Lord Guber}}{{attack=1}}`;
+
+  let macroRoll = `{{roll=[[1d20cs>${config.weapon.critRange} + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] + ?{AttackMod|0}]]}}{{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] ?{AttackMod|0} ]]}}{{atkvs=Melee+STR vs AC}}`;
+
+  let macroDamage = `{{damage=1}}{{dmg1flag=1}}{{dmg1=[[${config.weapon.damageDice} + ${config.macro.vitalStrikeDamage} + ${config.macro.damageTotal}]]}}{{dmg1type=Slashing}}{{dmg1crit=[[(${config.weapon.damageDice} + ${config.macro.damageTotal})*2 + ${config.macro.vitalStrikeDamage}]]}}`;
 
   const macroComplete = macroPrefix + macroRoll + macroDamage;
 
@@ -35,7 +41,8 @@ function calculateMacroSingle(actionName) {
   return macroComplete;
 }
 
-function calculateMacroMulti() {
+function calculateMacroMulti(actionName) {
+  config.calculateAttack(actionName);
   const macroBase = 'multiattack' + macroPrefix + macroRoll + macroDamage;
 
   if (config.macro.damageOther != '') {

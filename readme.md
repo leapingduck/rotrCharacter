@@ -65,6 +65,7 @@
 - [ ] Add Billy
 - [ ] Abilities and spell cards (For Billy)
 - [ ] Make cards collapsible when clicked. One active per row, inactive shows a summary of what's active
+      = [ ] Cure Light Wounds Calculator (enter total hitpoints and roll 1d8 + 1 until full. Output expended charges)
 
 ## Updates
 

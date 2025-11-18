@@ -33,11 +33,13 @@ function applyRules() {
     arr.length = 0;
     arr.push(0);
   });
+
   let activeAction;
-  config.base.strBonus = 6;
+  config.base.strBonus = 11;
   config.macro.damageOther = '';
   config.weapon.damageDice = '2d6';
   config.weapon.critRange = 19;
+  config.macro.vitalStrikeDamage = 0;
   //  -------------------------------------------------
 
   // make validation function. Checks for stuff like if power attack is unchecked then make sure furious focus is unchecked
@@ -188,10 +190,10 @@ function applyRules() {
 
 function updateWeaponEffectsUI() {
   const weaponEffectsContainer = document.querySelector('#weaponEffectsList');
-
-  // 1. Clear current weapon effects
-  weaponEffectsContainer.innerHTML = '';
-
+  if (weaponEffectsContainer) {
+    // 1. Clear current weapon effects
+    weaponEffectsContainer.innerHTML = '';
+  }
   // 2. Decide which weapon is selected
   let selectedWeaponId = null;
 

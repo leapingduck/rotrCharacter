@@ -100,10 +100,11 @@ function generateBuffList() {
   });
 }
 
-//Generates weapon related effects after the list weapon is selected
-//Add the header here so it doesn't show up until a weapon is selected? ##TODO
 export function generateWeaponEffects(selectedWeapon) {
   const container = document.querySelector('#weaponEffectContainer');
+  if (!container) return;
+
+  container.innerHTML = '';
 
   const heading = document.createElement('h3');
   heading.appendChild(document.createTextNode('Weapon Effects'));
@@ -113,14 +114,16 @@ export function generateWeaponEffects(selectedWeapon) {
   ul.id = 'weaponEffectsList';
   container.appendChild(ul);
 
-  const weaponEffectsContainer = document.querySelector('#weaponEffectsList');
-  // need to validate weapon is only one selection
   const activeWeapon = weapons.find((weapon) => weapon.id == selectedWeapon);
+  if (!activeWeapon || !Array.isArray(activeWeapon.effectIDs)) {
+    return;
+  }
 
   activeWeapon.effectIDs.forEach((effect) => {
-    //error handling
     const selectedEffect = weaponEffects.find((e) => e.id == effect);
+    if (!selectedEffect) return;
+
     const li = generateButton(selectedEffect.id, selectedEffect.name);
-    weaponEffectsContainer.appendChild(li);
+    ul.appendChild(li);
   });
 }

@@ -1,6 +1,6 @@
 export const base = {
   bab: 14, // Base attack bonus
-  strBonus: 6, // Strength modifier
+  strBonus: 12, // Strength modifier
   dexBonus: 2,
 };
 
@@ -66,6 +66,7 @@ export const damageDiceProgression = [
 ];
 
 export function calculateAttack(map) {
+  console.log(base.strBonus);
   if (map == 'map-5') {
     attack.untyped.push(-5);
   }
@@ -75,7 +76,7 @@ export function calculateAttack(map) {
   let untypedAttackBonus = attack.untyped.reduce((acc, a) => acc + a, 0);
 
   let untypedDamageBonus = damage.untyped.reduce((acc, a) => acc + a, 0);
-
+  macro.damageBase = Math.floor(base.strBonus * 1.5);
   macro.damageBonus =
     Math.max(...damage.enhancement) +
     Math.max(...damage.luck) +
