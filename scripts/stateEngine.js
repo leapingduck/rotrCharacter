@@ -34,6 +34,7 @@ function applyRules() {
     arr.push(0);
   });
   let activeAction;
+  config.base.strBonus = 6;
   config.macro.damageOther = '';
   config.weapon.damageDice = '2d6';
   config.weapon.critRange = 19;
@@ -45,39 +46,6 @@ function applyRules() {
   clearUI();
 
   const rules = [
-    {
-      when: (s) => s.chargeAction,
-      then: () => {
-        config.attack.untyped.push(-400);
-        activeAction = 'chargeAction';
-        console.log('Charge');
-      },
-    },
-    {
-      when: (s) => s.fullRoundAttack,
-      then: () => {
-        config.attack.untyped.push(-200);
-        activeAction = 'fullRoundAttack';
-        console.log('Full Round');
-      },
-    },
-    {
-      when: (s) => s.fightDefensively,
-      then: () => {
-        config.attack.untyped.push(-200);
-        activeAction = 'fightDefensively';
-        console.log('Fight Defensively');
-      },
-    },
-    {
-      when: (s) => s.vitalStrike,
-      then: () => {
-        config.attack.untyped.push(-100);
-        activeAction = 'vitalStrike';
-        console.log('Vital Strike');
-        // config.macro.vitalStrikeDamage = `${config.weapon.damageDice} + ${config.weapon.damageDice}`;
-      },
-    },
     {
       when: (s) => s.powerAttack,
       then: () => {
@@ -145,12 +113,12 @@ function applyRules() {
       when: (s) => s.enlarge,
       then: () => {
         config.attack.untyped.push(-1);
-        // str += 1;
+        config.base.strBonus += 1;
         config.weapon.damageDice = '3d6';
       },
     },
     {
-      when: (s) => s.weapon2 && s.enlarge,
+      when: (s) => s.GS02 && s.enlarge,
       then: () => {
         config.weapon.damageDice = '4d6';
       },
@@ -172,6 +140,37 @@ function applyRules() {
       when: (s) => s.haste,
       then: () => {
         config.attack.untyped.push(1);
+      },
+    },
+    {
+      when: (s) => s.chargeAction,
+      then: () => {
+        activeAction = 'chargeAction';
+        console.log('Charge');
+      },
+    },
+    {
+      when: (s) => s.fullRoundAttack,
+      then: () => {
+        config.damage.luck.push(2);
+        activeAction = 'fullRoundAttack';
+        console.log('Full Round');
+      },
+    },
+    {
+      when: (s) => s.fightDefensively,
+      then: () => {
+        config.attack.untyped.push(-200);
+        activeAction = 'fightDefensively';
+        console.log('Fight Defensively');
+      },
+    },
+    {
+      when: (s) => s.vitalStrike,
+      then: () => {
+        activeAction = 'vitalStrike';
+        console.log('Vital Strike');
+        config.macro.vitalStrikeDamage = `${config.weapon.damageDice} + ${config.weapon.damageDice}`;
       },
     },
   ];

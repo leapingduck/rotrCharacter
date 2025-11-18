@@ -4,13 +4,14 @@ import { domRef, createMacroElement } from './dom.js';
 let macroDamageOther;
 
 export function generateMacroOutput(actionType) {
-  const currentAction = config.actionTypes.find((a) => a.id == actionType);
-
-  currentAction.actions.forEach((a) => {
-    console.log(a);
-    const macroComplete = calculateMacro(a);
-    createMacroElement(macroComplete, actionType);
-  });
+  if (actionType) {
+    const currentAction = config.actionTypes.find((a) => a.id == actionType);
+    currentAction.actions.forEach((a) => {
+      console.log(a);
+      const macroComplete = calculateMacro(a);
+      createMacroElement(macroComplete, actionType);
+    });
+  }
 }
 
 function calculateMacro(actionName) {
