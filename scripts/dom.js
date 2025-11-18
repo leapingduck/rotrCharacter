@@ -73,6 +73,7 @@ export function generateButton(id, name) {
 // Check Lists ----------------------------------------------------
 
 function generateWeaponList() {
+  //
   const weaponContainer = document.querySelector('#weaponList');
 
   weapons.forEach((weapon) => {
@@ -102,6 +103,16 @@ function generateBuffList() {
 //Generates weapon related effects after the list weapon is selected
 //Add the header here so it doesn't show up until a weapon is selected? ##TODO
 export function generateWeaponEffects(selectedWeapon) {
+  const container = document.querySelector('#weaponEffectContainer');
+
+  const heading = document.createElement('h3');
+  heading.appendChild(document.createTextNode('Weapon Effects'));
+  container.appendChild(heading);
+
+  const ul = document.createElement('ul');
+  ul.id = 'weaponEffectsList';
+  container.appendChild(ul);
+
   const weaponEffectsContainer = document.querySelector('#weaponEffectsList');
   // need to validate weapon is only one selection
   const activeWeapon = weapons.find((weapon) => weapon.id == selectedWeapon);
