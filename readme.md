@@ -34,6 +34,7 @@
 - [x] Vital Strike
 - [ ] Add blink and include miss chance in roll.
 - [ ] Foretell (+2 attack saves etc)
+- [ ] Legendary Preportions
 
 ### Output
 

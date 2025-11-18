@@ -1,6 +1,6 @@
 export const base = {
   bab: 14, // Base attack bonus
-  strBonus: 12, // Strength modifier
+  strBonus: 6, // Strength modifier
   dexBonus: 2,
 };
 
@@ -36,7 +36,7 @@ export const macro = {
   attackName: 'First Attack',
   attackBonus: 0,
   attackTotal: 0,
-  vitalStrikeDamage: 0,
+  vitalStrikeDamage: '',
   damageBase: Math.floor(base.strBonus * 1.5),
   damageBonus: 0,
   damageOther: '',
@@ -65,43 +65,6 @@ export const damageDiceProgression = [
   '16d6',
 ];
 
-export function calculateAttack(map) {
-  console.log(base.strBonus);
-  if (map == 'map-5') {
-    attack.untyped.push(-5);
-  }
-  if (map == 'map-10') {
-    attack.untyped.push(-10);
-  }
-  let untypedAttackBonus = attack.untyped.reduce((acc, a) => acc + a, 0);
-
-  let untypedDamageBonus = damage.untyped.reduce((acc, a) => acc + a, 0);
-  macro.damageBase = Math.floor(base.strBonus * 1.5);
-  macro.damageBonus =
-    Math.max(...damage.enhancement) +
-    Math.max(...damage.luck) +
-    Math.max(...damage.morale) +
-    Math.max(...damage.item) +
-    Math.max(...damage.profane) +
-    Math.max(...damage.sacred) +
-    untypedDamageBonus;
-
-  macro.damageTotal = macro.damageBase + macro.damageBonus;
-
-  macro.attackBonus =
-    Math.max(...attack.circumstance) +
-    Math.max(...attack.competence) +
-    Math.max(...attack.enhancement) +
-    Math.max(...attack.insight) +
-    Math.max(...attack.luck) +
-    Math.max(...attack.morale) +
-    Math.max(...attack.size) +
-    Math.max(...attack.item) +
-    untypedAttackBonus;
-
-  macro.attackTotal = base.bab + base.strBonus + macro.attackBonus;
-}
-
 export const buffs = [
   { name: 'Power Attack', id: 'powerAttack', type: 'attack' },
   { name: 'Furious Focus', id: 'furiousFocus', type: 'attack' },
@@ -117,25 +80,21 @@ export const actionTypes = [
     name: 'Charge',
     id: 'chargeAction',
     type: 'action',
-    actions: ['fullBAB'],
   },
   {
     name: 'Vital Strike',
     id: 'vitalStrike',
     type: 'action',
-    actions: ['fullBAB'],
   },
   {
     name: 'Full Round Attack',
     id: 'fullRoundAttack',
     type: 'action',
-    actions: ['fullBAB', 'map-5', 'map-10'],
   },
   {
     name: 'Fight Defensively',
     id: 'fightDefensively',
     type: 'action',
-    actions: ['fullBAB'],
   },
 ];
 

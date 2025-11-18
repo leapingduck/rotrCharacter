@@ -1,6 +1,6 @@
 import * as config from './config.js';
 import { stateCheckboxes, generateWeaponEffects, clearUI } from './dom.js';
-import { generateMacroOutput } from './macro.js';
+import { macroBuilder } from './macro.js';
 
 function buildInitialState() {
   const ids = [
@@ -9,7 +9,7 @@ function buildInitialState() {
     ...config.weapons.map((weapon) => weapon.id),
     ...config.actionTypes.map((action) => action.id),
   ];
-  console.log(ids);
+
   return ids.reduce(
     (acc, id) => {
       acc[id] = false;
@@ -35,11 +35,11 @@ function applyRules() {
   });
 
   let activeAction;
-  config.base.strBonus = 11;
+  let haste;
   config.macro.damageOther = '';
   config.weapon.damageDice = '2d6';
   config.weapon.critRange = 19;
-  config.macro.vitalStrikeDamage = 0;
+  config.macro.vitalStrikeDamage = '';
   //  -------------------------------------------------
 
   // make validation function. Checks for stuff like if power attack is unchecked then make sure furious focus is unchecked
@@ -141,6 +141,7 @@ function applyRules() {
     {
       when: (s) => s.haste,
       then: () => {
+        haste = true;
         config.attack.untyped.push(1);
       },
     },
@@ -148,15 +149,12 @@ function applyRules() {
       when: (s) => s.chargeAction,
       then: () => {
         activeAction = 'chargeAction';
-        console.log('Charge');
       },
     },
     {
       when: (s) => s.fullRoundAttack,
       then: () => {
-        config.damage.luck.push(2);
         activeAction = 'fullRoundAttack';
-        console.log('Full Round');
       },
     },
     {
@@ -164,14 +162,12 @@ function applyRules() {
       then: () => {
         config.attack.untyped.push(-200);
         activeAction = 'fightDefensively';
-        console.log('Fight Defensively');
       },
     },
     {
       when: (s) => s.vitalStrike,
       then: () => {
         activeAction = 'vitalStrike';
-        console.log('Vital Strike');
         config.macro.vitalStrikeDamage = `${config.weapon.damageDice} + ${config.weapon.damageDice}`;
       },
     },
@@ -185,7 +181,7 @@ function applyRules() {
     }
   }
 
-  generateMacroOutput(activeAction);
+  macroBuilder(activeAction, haste);
 }
 
 function updateWeaponEffectsUI() {

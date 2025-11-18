@@ -1,53 +1,83 @@
 import * as config from './config.js';
-import { domRef, createMacroElement } from './dom.js';
+import { createMacroElement } from './dom.js';
 
-let macroPrefix = `&{template:pc}{{name=${config.macro.attackName}}}{{type=attackdamage}}{{showchar=1}}{{charname=Lord Guber}}{{attack=1}}`;
+function macroComponents(map) {
+  let macroParts = {};
+  calculateAttack();
+  let macroPrefix = `&{template:pc}{{name=${config.macro.attackName}}}{{type=attackdamage}}{{showchar=1}}{{charname=Lord Guber}}{{attack=1}}{{atkvs=Melee+STR vs AC}}`;
+  // implement adding queries later on
+  // let macroQuery = ' + ?{AttackMod|0}'
+  let macroRoll = `{{roll=[[1d20cs>${config.weapon.critRange} + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] + ${map}[MAP]]]}}{{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff]+ ${map}[MAP]]}}`;
 
-let macroRoll = `{{roll=[[1d20cs>${config.weapon.critRange} + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] + ?{AttackMod|0}]]}}{{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] ?{AttackMod|0} ]]}}{{atkvs=Melee+STR vs AC}}`;
-
-let macroDamage = `{{damage=1}}{{dmg1flag=1}}{{dmg1=[[${config.weapon.damageDice} + ${config.macro.vitalStrikeDamage} + ${config.macro.damageTotal}]]}}{{dmg1type=Slashing}}{{dmg1crit=[[(${config.weapon.damageDice} + ${config.macro.damageTotal})*2 + ${config.macro.vitalStrikeDamage}]]}}`;
-
-export function generateMacroOutput(actionType) {
-  if (actionType) {
-    const currentAction = config.actionTypes.find((a) => a.id == actionType);
-
-    // build elements for all of the action types in an array
-    currentAction.actions.forEach((a) => {
-      console.log(a);
-      const macroSingle = calculateMacroSingle(a);
-      createMacroElement(macroSingle, actionType);
-    });
-
-    if (currentAction.actions.length > 1) {
-      const macroMulti = calculateMacroMulti(actionType);
-      createMacroElement(macroMulti, actionType);
-    }
-  }
-}
-function calculateMacroSingle(actionName) {
-  config.calculateAttack(actionName);
-
-  let macroPrefix = `&{template:pc}{{name=${config.macro.attackName}}}{{type=attackdamage}}{{showchar=1}}{{charname=Lord Guber}}{{attack=1}}`;
-
-  let macroRoll = `{{roll=[[1d20cs>${config.weapon.critRange} + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] + ?{AttackMod|0}]]}}{{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] ?{AttackMod|0} ]]}}{{atkvs=Melee+STR vs AC}}`;
-
-  let macroDamage = `{{damage=1}}{{dmg1flag=1}}{{dmg1=[[${config.weapon.damageDice} + ${config.macro.vitalStrikeDamage} + ${config.macro.damageTotal}]]}}{{dmg1type=Slashing}}{{dmg1crit=[[(${config.weapon.damageDice} + ${config.macro.damageTotal})*2 + ${config.macro.vitalStrikeDamage}]]}}`;
-
-  const macroComplete = macroPrefix + macroRoll + macroDamage;
-
+  let macroDamage = `{{damage=1}}{{dmg1flag=1}}{{dmg1=[[${config.weapon.damageDice} ${config.macro.vitalStrikeDamage}+ ${config.macro.damageTotal} ]]}} {{dmg1type=Slashing}}{{critdmg=[[(${config.weapon.damageDice} + ${config.macro.damageTotal})*2 ${config.macro.vitalStrikeDamage}]]}}`;
   if (config.macro.damageOther != '') {
-    macroComplete += `{{dmg2flag=1}}{{dmg2type=Fire}}{{dmg2=[[${config.macro.damageOther}]]}}{{dmg2crit=[[${config.macro.damageOther}]]}}`;
+    macroDamage += `{{dmg2flag=1}}{{dmg2type=Fire}}{{dmg2=[[${config.macro.damageOther}]]}}{{dmg2crit=[[${config.macro.damageOther}]]}}`;
   }
-  return macroComplete;
+
+  macroParts = {
+    prefix: macroPrefix,
+    roll: macroRoll,
+    damage: macroDamage,
+  };
+
+  return macroParts;
 }
 
-function calculateMacroMulti(actionName) {
-  config.calculateAttack(actionName);
-  const macroBase = 'multiattack' + macroPrefix + macroRoll + macroDamage;
+export function macroBuilder(activeAction, haste) {
+  let macroParts = macroComponents(0);
 
-  if (config.macro.damageOther != '') {
-    macroBase += `{{dmg2flag=1}}{{dmg2type=Fire}}{{dmg2=[[${config.macro.damageOther}]]}}{{dmg2crit=[[${config.macro.damageOther}]]}}`;
+  // First Attack
+  const macro = macroParts.prefix + macroParts.roll + macroParts.damage;
+  let macroRunning = macro;
+
+  createMacroElement(macro, 'First Attack', 'firstAttack');
+
+  if (haste && activeAction === 'fullRoundAttack') {
+    createMacroElement(macro, 'Haste', 'hastedAttack');
+    macroRunning += macroParts.roll + macroParts.damage;
   }
-  const macroComplete = macroBase;
-  return macroComplete;
+
+  if (activeAction === 'fullRoundAttack') {
+    macroParts = macroComponents(-5);
+    createMacroElement(macro, 'Second', 'secondAttack');
+    macroRunning += macroParts.roll + macroParts.damage;
+    macroParts = macroComponents(-10);
+    createMacroElement(macro, 'Third', 'thirdAttack');
+    macroRunning += macroParts.roll + macroParts.damage;
+    createMacroElement(macroRunning, 'Combined', 'multiAttack');
+  }
+}
+
+function calculateAttack() {
+  const dmg = config.damage;
+  const atk = config.attack;
+  const mac = config.macro;
+
+  let untypedDamageBonus = dmg.untyped.reduce((acc, a) => acc + a, 0);
+  mac.damageBase = Math.floor(config.base.strBonus * 1.5);
+  mac.damageBonus =
+    Math.max(...dmg.enhancement) +
+    Math.max(...dmg.luck) +
+    Math.max(...dmg.morale) +
+    Math.max(...dmg.item) +
+    Math.max(...dmg.profane) +
+    Math.max(...dmg.sacred) +
+    untypedDamageBonus;
+
+  mac.damageTotal = mac.damageBase + mac.damageBonus;
+
+  let untypedAttackBonus = atk.untyped.reduce((acc, a) => acc + a, 0);
+
+  mac.attackBonus =
+    Math.max(...atk.circumstance) +
+    Math.max(...atk.competence) +
+    Math.max(...atk.enhancement) +
+    Math.max(...atk.insight) +
+    Math.max(...atk.luck) +
+    Math.max(...atk.morale) +
+    Math.max(...atk.size) +
+    Math.max(...atk.item) +
+    untypedAttackBonus;
+
+  mac.attackTotal = config.base.bab + config.base.strBonus + mac.attackBonus;
 }

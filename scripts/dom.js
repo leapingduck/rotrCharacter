@@ -19,12 +19,12 @@ export function pageLoad() {
   generateActionList();
 }
 
-export function createMacroElement(macro, name) {
+export function createMacroElement(macro, name, id) {
   const row = document.createElement('div');
   row.className = 'flex-row clear-item';
 
   const preview = document.createElement('preview');
-  preview.id = `${name}-ouput`;
+  preview.id = `${id}-ouput`;
   preview.className = 'preview';
   preview.appendChild(document.createTextNode(macro));
 
@@ -33,7 +33,7 @@ export function createMacroElement(macro, name) {
 
   const button = document.createElement('button');
   button.className = 'clipboard-button';
-  button.appendChild(document.createTextNode('First Attack'));
+  button.appendChild(document.createTextNode(name));
   button.addEventListener('click', () => {
     navigator.clipboard.writeText(macro);
   });
