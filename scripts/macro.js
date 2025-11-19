@@ -39,11 +39,18 @@ export function macroBuilder(activeAction, haste) {
 
   if (activeAction === 'fullRoundAttack') {
     macroParts = macroComponents(-5);
-    createMacroElement(macro, 'Second', 'secondAttack');
+
+    const macro5 = macroParts.prefix + macroParts.roll + macroParts.damage;
+    console.log(macro5);
+    createMacroElement(macro5, 'Second', 'secondAttack');
     macroRunning += macroParts.roll + macroParts.damage;
+
     macroParts = macroComponents(-10);
-    createMacroElement(macro, 'Third', 'thirdAttack');
+    const macro10 = macroParts.prefix + macroParts.roll + macroParts.damage;
+    console.log(macro10);
+    createMacroElement(macro10, 'Third', 'thirdAttack');
     macroRunning += macroParts.roll + macroParts.damage;
+
     createMacroElement(macroRunning, 'Combined', 'multiAttack');
   }
 }
