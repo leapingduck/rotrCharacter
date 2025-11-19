@@ -1,13 +1,19 @@
 import * as config from './config.js';
 import { createMacroElement } from './dom.js';
 
-function macroComponents(map) {
+function macroComponents(map, attackNumber) {
   let macroParts = {};
   calculateAttack();
   let macroPrefix = `&{template:pc}{{name=${config.macro.attackName}}}{{type=attackdamage}}{{showchar=1}}{{charname=Lord Guber}}{{attack=1}}{{atkvs=Melee+STR vs AC}}`;
   // implement adding queries later on
   // let macroQuery = ' + ?{AttackMod|0}'
-  let macroRoll = `{{roll=[[1d20cs>${config.weapon.critRange} + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] + ${map}[MAP]]]}} {{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff]+ ${map}[MAP]]]}}`;
+  //${attackNumber > 1 ? attackNumber : ''}
+
+  // this is close. rolls all three dice but no damage currently. Need to do similar thing for damage roll iterations.
+  // this also breaks the individual macros. Roll2 won't work if it is rolled alone.
+  const rollKey = attackNumber > 1 ? `roll${attackNumber}` : 'roll';
+
+  let macroRoll = `{{${rollKey}=[[1d20cs>${config.weapon.critRange} + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] + ${map}[MAP]]]}} {{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff]+ ${map}[MAP]]]}}`;
 
   let macroDamage = `{{damage=1}} {{dmg1flag=1}} {{dmg1=[[${config.weapon.damageDice} ${config.macro.vitalStrikeDamage} + ${config.macro.damageTotal} ]]}} {{dmg1type=Slashing}}{{dmg1crit=[[(${config.weapon.damageDice} + ${config.macro.damageTotal})*2 ${config.macro.vitalStrikeDamage}]]}}`;
   if (config.macro.damageOther != '') {
@@ -24,7 +30,7 @@ function macroComponents(map) {
 }
 
 export function macroBuilder(activeAction, haste) {
-  let macroParts = macroComponents(0);
+  let macroParts = macroComponents(0, 0);
 
   // First Attack
   const macro = macroParts.prefix + macroParts.roll + macroParts.damage;
@@ -38,14 +44,14 @@ export function macroBuilder(activeAction, haste) {
   }
 
   if (activeAction === 'fullRoundAttack') {
-    macroParts = macroComponents(-5);
+    macroParts = macroComponents(-5, 2);
 
     const macro5 = macroParts.prefix + macroParts.roll + macroParts.damage;
     console.log(macro5);
     createMacroElement(macro5, 'Second', 'secondAttack');
     macroRunning += macroParts.roll + macroParts.damage;
 
-    macroParts = macroComponents(-10);
+    macroParts = macroComponents(-10, 3);
     const macro10 = macroParts.prefix + macroParts.roll + macroParts.damage;
     console.log(macro10);
     createMacroElement(macro10, 'Third', 'thirdAttack');
