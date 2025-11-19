@@ -7,9 +7,9 @@ function macroComponents(map) {
   let macroPrefix = `&{template:pc}{{name=${config.macro.attackName}}}{{type=attackdamage}}{{showchar=1}}{{charname=Lord Guber}}{{attack=1}}{{atkvs=Melee+STR vs AC}}`;
   // implement adding queries later on
   // let macroQuery = ' + ?{AttackMod|0}'
-  let macroRoll = `{{roll=[[1d20cs>${config.weapon.critRange} + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] + ${map}[MAP]]]}}{{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff]+ ${map}[MAP]]}}`;
+  let macroRoll = `{{roll=[[1d20cs>${config.weapon.critRange} + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] + ${map}[MAP]]]}} {{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff]+ ${map}[MAP]]]}}`;
 
-  let macroDamage = `{{damage=1}}{{dmg1flag=1}}{{dmg1=[[${config.weapon.damageDice} ${config.macro.vitalStrikeDamage}+ ${config.macro.damageTotal} ]]}} {{dmg1type=Slashing}}{{critdmg=[[(${config.weapon.damageDice} + ${config.macro.damageTotal})*2 ${config.macro.vitalStrikeDamage}]]}}`;
+  let macroDamage = `{{damage=1}} {{dmg1flag=1}} {{dmg1=[[${config.weapon.damageDice} ${config.macro.vitalStrikeDamage} + ${config.macro.damageTotal} ]]}} {{dmg1type=Slashing}}{{dmg1crit=[[(${config.weapon.damageDice} + ${config.macro.damageTotal})*2 ${config.macro.vitalStrikeDamage}]]}}`;
   if (config.macro.damageOther != '') {
     macroDamage += `{{dmg2flag=1}}{{dmg2type=Fire}}{{dmg2=[[${config.macro.damageOther}]]}}{{dmg2crit=[[${config.macro.damageOther}]]}}`;
   }

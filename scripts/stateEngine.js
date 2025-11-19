@@ -168,7 +168,7 @@ function applyRules() {
       when: (s) => s.vitalStrike,
       then: () => {
         activeAction = 'vitalStrike';
-        config.macro.vitalStrikeDamage = `${config.weapon.damageDice} + ${config.weapon.damageDice}`;
+        config.macro.vitalStrikeDamage = `+ ${config.weapon.damageDice} + ${config.weapon.damageDice}`;
       },
     },
   ];
