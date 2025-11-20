@@ -41,6 +41,7 @@ export const macro = {
   damageBonus: 0,
   damageOther: '',
   damageTotal: 0,
+  queryToggle: 0,
 };
 
 export const damageDiceProgression = [

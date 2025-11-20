@@ -2,20 +2,48 @@ import * as config from './config.js';
 import { createMacroElement } from './dom.js';
 
 function macroComponents(map, attackNumber) {
+  // ### Create Empty Object and calculate variables ###
   let macroParts = {};
   calculateAttack();
-  let macroPrefix = `&{template:pc}{{name=${config.macro.attackName}}}{{type=attackdamage}}{{showchar=1}}{{charname=Lord Guber}}{{attack=1}}{{atkvs=Melee+STR vs AC}}`;
+
+  // ### Creates the prefix - should only be used once in the combined macro ###
+  let macroPrefix = `&{template:pc} {{type=attackdamage}} {{name=${
+    config.macro.attackName
+  }}} {{attack=1}} {{showchar=[[1]]}} {{atkvs=(Melee vs AC)}} {{dmg1flag=1}} ${
+    config.macro.damageOther != '' ? '{{dmg2flag=1}} {{dmg2name=Acid}}' : ''
+  } {{charname=Lord Guber}}`;
+
   // implement adding queries later on
-  // let macroQuery = ' + ?{AttackMod|0}'
-  //${attackNumber > 1 ? attackNumber : ''}
+  // let macroQuery = ' + ?{AttackMod|0}'\
 
-  // this is close. rolls all three dice but no damage currently. Need to do similar thing for damage roll iterations.
-  // this also breaks the individual macros. Roll2 won't work if it is rolled alone.
-  const rollKey = attackNumber > 1 ? `roll${attackNumber}` : 'roll';
+  const rollKey = attackNumber > 0 ? `roll${attackNumber}` : 'roll';
+  let CombinedMacroRoll = `{{${rollKey}=[[1d20cs>${config.weapon.critRange} + ${
+    config.base.bab
+  }[BAB] + ${config.base.strBonus}[Strength] + ${
+    config.macro.attackBonus
+  }[Buff] + ${map}[MAP] ${
+    config.macro.queryToggle ? ' + ?{AttackMod|0}' : ''
+  }]]}} {{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${
+    config.base.strBonus
+  }[Strength] + ${config.macro.attackBonus}[Buff]+ ${map}[MAP] ${
+    config.macro.queryToggle ? ' + ?{AttackMod|0}' : ''
+  } ]]}}`;
 
-  let macroRoll = `{{${rollKey}=[[1d20cs>${config.weapon.critRange} + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff] + ${map}[MAP]]]}} {{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${config.base.strBonus}[Strength] + ${config.macro.attackBonus}[Buff]+ ${map}[MAP]]]}}`;
+  let macroRoll = `{{roll=[[1d20cs>${config.weapon.critRange} + ${
+    config.base.bab
+  }[BAB] + ${config.base.strBonus}[Strength] + ${
+    config.macro.attackBonus
+  }[Buff] + ${map}[MAP] ${
+    config.macro.queryToggle ? ' + ?{AttackMod|0}' : ''
+  }]]}} {{critconfirm=[[1d20 + ${config.base.bab}[BAB] + ${
+    config.base.strBonus
+  }[Strength] + ${config.macro.attackBonus}[Buff]+ ${map}[MAP] ${
+    config.macro.queryToggle ? ' + ?{AttackMod|0}' : ''
+  } ]]}}`;
 
-  let macroDamage = `{{damage=1}} {{dmg1flag=1}} {{dmg1=[[${config.weapon.damageDice} ${config.macro.vitalStrikeDamage} + ${config.macro.damageTotal} ]]}} {{dmg1type=Slashing}}{{dmg1crit=[[(${config.weapon.damageDice} + ${config.macro.damageTotal})*2 ${config.macro.vitalStrikeDamage}]]}}`;
+  const damageKey = attackNumber > 0 ? `${attackNumber}` : 'roll';
+  let macroDamage = `{{rolldmg1=[[${config.weapon.damageDice} ${config.macro.vitalStrikeDamage} + ${config.macro.damageTotal} ]]}} {{rolldmg1type=Slashing}}{{rolldmg1crit=[[(${config.weapon.damageDice} + ${config.macro.damageTotal})*2 ${config.macro.vitalStrikeDamage}]]}}`;
+  let combinedMacroDamage = `{{damage=1}} {{dmg1flag=1}} {{dmg1=[[${config.weapon.damageDice} ${config.macro.vitalStrikeDamage} + ${config.macro.damageTotal} ]]}} {{dmg1type=Slashing}}{{dmg1crit=[[(${config.weapon.damageDice} + ${config.macro.damageTotal})*2 ${config.macro.vitalStrikeDamage}]]}}`;
   if (config.macro.damageOther != '') {
     macroDamage += `{{dmg2flag=1}}{{dmg2type=Fire}}{{dmg2=[[${config.macro.damageOther}]]}}{{dmg2crit=[[${config.macro.damageOther}]]}}`;
   }
@@ -24,6 +52,8 @@ function macroComponents(map, attackNumber) {
     prefix: macroPrefix,
     roll: macroRoll,
     damage: macroDamage,
+    combinedRoll: CombinedMacroRoll,
+    combinedDamage: combinedMacroDamage,
   };
 
   return macroParts;
@@ -44,18 +74,17 @@ export function macroBuilder(activeAction, haste) {
   }
 
   if (activeAction === 'fullRoundAttack') {
-    macroParts = macroComponents(-5, 2);
-
+    macroParts = macroComponents(-5, 1);
     const macro5 = macroParts.prefix + macroParts.roll + macroParts.damage;
     console.log(macro5);
     createMacroElement(macro5, 'Second', 'secondAttack');
-    macroRunning += macroParts.roll + macroParts.damage;
+    macroRunning += macroParts.combinedRoll + macroParts.damage;
 
-    macroParts = macroComponents(-10, 3);
+    macroParts = macroComponents(-10, 2);
     const macro10 = macroParts.prefix + macroParts.roll + macroParts.damage;
     console.log(macro10);
     createMacroElement(macro10, 'Third', 'thirdAttack');
-    macroRunning += macroParts.roll + macroParts.damage;
+    macroRunning += macroParts.combinedRoll + macroParts.damage;
 
     createMacroElement(macroRunning, 'Combined', 'multiAttack');
   }
