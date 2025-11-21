@@ -26,7 +26,7 @@ export function createMacroElement(macro, name, id) {
   const preview = document.createElement('preview');
   preview.id = `${id}-ouput`;
   preview.className = 'preview';
-  preview.appendChild(document.createTextNode(macro));
+  preview.appendChild(document.createTextNode(macro.replace(/\s/g, '')));
 
   const macroOutput = document.querySelector('#macroOutput');
   row.appendChild(preview);
@@ -35,7 +35,7 @@ export function createMacroElement(macro, name, id) {
   button.className = 'clipboard-button';
   button.appendChild(document.createTextNode(name));
   button.addEventListener('click', () => {
-    navigator.clipboard.writeText(macro);
+    navigator.clipboard.writeText(macro.replace(/\s/g, ''));
   });
   row.appendChild(button);
 
