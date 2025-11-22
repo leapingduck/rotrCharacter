@@ -58,37 +58,40 @@ function macroComponents(map, attackNumber) {
 
   return macroParts;
 }
+let macroParts = macroComponents(0, 0);
 
+const macro = macroParts.prefix + macroParts.roll + macroParts.damage;
+let combinedMacro =
+  macroParts.prefix + macroParts.combinedRoll + macroParts.combinedDamage;
 export function macroBuilder(activeAction, haste) {
-  let macroParts = macroComponents(0, 0);
-
-  // First Attack
-  const macro = macroParts.prefix + macroParts.roll + macroParts.damage;
-  let combinedMacro =
-    macroParts.prefix + macroParts.combinedRoll + macroParts.combinedDamage;
-
   createMacroElement(macro, 'First Attack', 'firstAttack');
 
   if (haste && activeAction === 'fullRoundAttack') {
+    let macroParts = macroComponents(0, 1);
     createMacroElement(macro, 'Haste', 'hastedAttack');
-    combinedMacro += macroParts.roll + macroParts.damage;
-  }
-
-  if (activeAction === 'fullRoundAttack') {
-    macroParts = macroComponents(-5, 1);
-    const macro5 = macroParts.prefix + macroParts.roll + macroParts.damage;
-    console.log(macro5);
-    createMacroElement(macro5, 'Second', 'secondAttack');
     combinedMacro += macroParts.combinedRoll + macroParts.combinedDamage;
-
-    macroParts = macroComponents(-10, 2);
-    const macro10 = macroParts.prefix + macroParts.roll + macroParts.damage;
-    console.log(macro10);
-    createMacroElement(macro10, 'Third', 'thirdAttack');
-    combinedMacro += macroParts.combinedRoll + macroParts.combinedDamage;
-
+    iterativeMacroBuilder(2);
+    createMacroElement(combinedMacro, 'Combined', 'multiAttack');
+  } else if (activeAction === 'fullRoundAttack') {
+    iterativeMacroBuilder(1);
     createMacroElement(combinedMacro, 'Combined', 'multiAttack');
   }
+}
+
+function iterativeMacroBuilder(attackNum) {
+  // Iterative Attacks - Does not currently apply furious focus correctly.
+
+  macroParts = macroComponents(-5, attackNum);
+  const macro5 = macroParts.prefix + macroParts.roll + macroParts.damage;
+  console.log(macro5);
+  createMacroElement(macro5, 'Second', 'secondAttack');
+  combinedMacro += macroParts.combinedRoll + macroParts.combinedDamage;
+
+  macroParts = macroComponents(-10, attackNum + 1);
+  const macro10 = macroParts.prefix + macroParts.roll + macroParts.damage;
+  console.log(macro10);
+  createMacroElement(macro10, 'Third', 'thirdAttack');
+  combinedMacro += macroParts.combinedRoll + macroParts.combinedDamage;
 }
 
 function calculateAttack() {
