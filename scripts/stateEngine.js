@@ -1,5 +1,5 @@
 import * as config from './config.js';
-import { stateCheckboxes, generateWeaponEffects, clearUI } from './dom.js';
+import { stateInputs, generateWeaponEffects, clearUI } from './dom.js';
 import { macroBuilder } from './macro.js';
 
 function buildInitialState() {
@@ -24,22 +24,22 @@ const state = buildInitialState();
 function applyRules() {
   // make function
   // reset values ------------------------------------
-  Object.values(config.attack).forEach((arr) => {
+  Object.values(config.attackBonuses).forEach((arr) => {
     arr.length = 0;
     arr.push(0);
   });
 
-  Object.values(config.damage).forEach((arr) => {
+  Object.values(config.damageBonuses).forEach((arr) => {
     arr.length = 0;
     arr.push(0);
   });
 
   let activeAction;
   let haste;
-  config.macro.damageOther = '';
-  config.weapon.damageDice = '2d6';
-  config.weapon.critRange = 19;
-  config.macro.vitalStrikeDamage = '';
+  config.macroDefaults.damageOther = '';
+  config.activeWeapon.damageDice = '2d6';
+  config.activeWeapon.critRange = 19;
+  config.macroDefaults.vitalStrikeDamage = '';
   //  -------------------------------------------------
 
   // make validation function. Checks for stuff like if power attack is unchecked then make sure furious focus is unchecked
@@ -51,8 +51,8 @@ function applyRules() {
     {
       when: (s) => s.powerAttack,
       then: () => {
-        config.attack.untyped.push(-4);
-        config.damage.untyped.push(12);
+        config.attackBonuses.untyped.push(-4);
+        config.damageBonuses.untyped.push(12);
       },
     },
     {
@@ -65,64 +65,64 @@ function applyRules() {
     {
       when: (s) => s.powerAttack && s.furiousFocus,
       then: () => {
-        config.attack.untyped.push(4);
+        config.attackBonuses.untyped.push(4);
       },
     },
     {
       when: (s) => s.flamingWeapon,
       then: () => {
-        config.macro.damageOther = '1d6[Fire]';
+        config.macroDefaults.damageOther = '1d6[Fire]';
       },
     },
     {
       when: (s) => s.banner,
       then: () => {
-        config.attack.morale.push(1);
-        config.damage.morale.push(1);
+        config.attackBonuses.morale.push(1);
+        config.damageBonuses.morale.push(1);
       },
     },
     {
       when: (s) => s.challenge,
       then: () => {
-        config.attack.morale.push(2);
-        config.damage.morale.push(6);
+        config.attackBonuses.morale.push(2);
+        config.damageBonuses.morale.push(6);
       },
     },
     {
       when: (s) => s.heroism,
       then: () => {
-        config.attack.morale.push(2);
+        config.attackBonuses.morale.push(2);
       },
     },
     {
       when: (s) => s.GS01,
       then: () => {
-        config.attack.item.push(1);
-        config.attack.untyped.push(1);
-        config.damage.item.push(1);
+        config.attackBonuses.item.push(1);
+        config.attackBonuses.untyped.push(1);
+        config.damageBonuses.item.push(1);
       },
     },
     {
       when: (s) => s.GS02,
       then: () => {
-        config.attack.item.push(1);
-        config.attack.untyped.push(1);
-        config.damage.item.push(1);
-        config.weapon.damageDice = '3d6';
+        config.attackBonuses.item.push(1);
+        config.attackBonuses.untyped.push(1);
+        config.damageBonuses.item.push(1);
+        config.activeWeapon.damageDice = '3d6';
       },
     },
     {
       when: (s) => s.enlarge,
       then: () => {
-        config.attack.untyped.push(-1);
-        config.base.strBonus += 1;
-        config.weapon.damageDice = '3d6';
+        config.attackBonuses.untyped.push(-1);
+        config.baseStats.strBonus += 1;
+        config.activeWeapon.damageDice = '3d6';
       },
     },
     {
       when: (s) => s.GS02 && s.enlarge,
       then: () => {
-        config.weapon.damageDice = '4d6';
+        config.activeWeapon.damageDice = '4d6';
       },
     },
     {
@@ -135,14 +135,14 @@ function applyRules() {
     {
       when: (s) => s.keenWeapon,
       then: () => {
-        config.weapon.critRange = 17;
+        config.activeWeapon.critRange = 17;
       },
     },
     {
       when: (s) => s.haste,
       then: () => {
         haste = true;
-        config.attack.untyped.push(1);
+        config.attackBonuses.untyped.push(1);
       },
     },
     {
@@ -160,7 +160,7 @@ function applyRules() {
     {
       when: (s) => s.fightDefensively,
       then: () => {
-        config.attack.untyped.push(-200);
+        config.attackBonuses.untyped.push(-200);
         activeAction = 'fightDefensively';
       },
     },
@@ -168,7 +168,7 @@ function applyRules() {
       when: (s) => s.vitalStrike,
       then: () => {
         activeAction = 'vitalStrike';
-        config.macro.vitalStrikeDamage = `+ ${config.weapon.damageDice} + ${config.weapon.damageDice}`;
+        config.macroDefaults.vitalStrikeDamage = `+ ${config.activeWeapon.damageDice} + ${config.activeWeapon.damageDice}`;
       },
     },
   ];
@@ -206,7 +206,7 @@ function updateWeaponEffectsUI() {
   generateWeaponEffects(selectedWeaponId);
 
   // 4. After generating, sync checkboxes from state
-  for (const checkbox of stateCheckboxes) {
+  for (const checkbox of stateInputs) {
     const id = checkbox.id;
 
     // only apply state if we track this id
@@ -217,7 +217,7 @@ function updateWeaponEffectsUI() {
 }
 
 export function handleStateChange() {
-  for (const checkbox of stateCheckboxes) {
+  for (const checkbox of stateInputs) {
     const id = checkbox.id;
     state[id] = checkbox.checked;
   }
