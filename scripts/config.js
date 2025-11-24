@@ -36,48 +36,35 @@ export const macro = {
   attackName: 'First Attack',
   attackBonus: 0,
   attackTotal: 0,
-  vitalStrikeDamage: 0,
+  vitalStrikeDamage: '',
   damageBase: Math.floor(base.strBonus * 1.5),
   damageBonus: 0,
   damageOther: '',
   damageTotal: 0,
+  queryToggle: 0,
 };
 
-export function calculateAttack() {
-  let untypedAttackBonus = attack.untyped.reduce(
-    (partialSum, a) => partialSum + a,
-    0
-  );
-
-  let untypedDamageBonus = damage.untyped.reduce(
-    (partialSum, a) => partialSum + a,
-    0
-  );
-
-  macro.damageBonus =
-    Math.max(...damage.enhancement) +
-    Math.max(...damage.luck) +
-    Math.max(...damage.morale) +
-    Math.max(...damage.item) +
-    Math.max(...damage.profane) +
-    Math.max(...damage.sacred) +
-    untypedDamageBonus;
-
-  macro.damageTotal = macro.damageBase + macro.damageBonus;
-
-  macro.attackBonus =
-    Math.max(...attack.circumstance) +
-    Math.max(...attack.competence) +
-    Math.max(...attack.enhancement) +
-    Math.max(...attack.insight) +
-    Math.max(...attack.luck) +
-    Math.max(...attack.morale) +
-    Math.max(...attack.size) +
-    Math.max(...attack.item) +
-    untypedAttackBonus;
-
-  macro.attackTotal = base.bab + base.strBonus + macro.attackBonus;
-}
+export const damageDiceProgression = [
+  '1d2',
+  '1d3',
+  '1d4',
+  '1d6',
+  '1d8',
+  '1d10',
+  '2d6',
+  '2d8',
+  '3d6',
+  '3d8',
+  '4d6',
+  '4d8',
+  '6d6',
+  '6d8',
+  '8d6',
+  '8d8',
+  '12d6',
+  '12d8',
+  '16d6',
+];
 
 export const buffs = [
   { name: 'Power Attack', id: 'powerAttack', type: 'attack' },
@@ -87,12 +74,29 @@ export const buffs = [
   { name: 'Enlarge', id: 'enlarge', type: 'attack' },
   { name: 'Haste', id: 'haste', type: 'attack' },
   { name: 'Heroism', id: 'heroism', type: 'attack' },
-  { name: 'Second Attack', id: 'secondAttack', type: 'action' },
-  { name: 'Third Attack', id: 'thirdAttack', type: 'action' },
-  { name: 'Charge', id: 'chargeAction', type: 'action' },
-  { name: 'Vital Strike', id: 'vitalStrike', type: 'action' },
-  { name: 'Full Round Attack', id: 'fullRoundAttack', type: 'action' },
-  { name: 'Fight Defensively', id: 'fightDefensively', type: 'action' },
+];
+
+export const actionTypes = [
+  {
+    name: 'Charge',
+    id: 'chargeAction',
+    type: 'action',
+  },
+  {
+    name: 'Vital Strike',
+    id: 'vitalStrike',
+    type: 'action',
+  },
+  {
+    name: 'Full Round Attack',
+    id: 'fullRoundAttack',
+    type: 'action',
+  },
+  {
+    name: 'Fight Defensively',
+    id: 'fightDefensively',
+    type: 'action',
+  },
 ];
 
 export const weaponEffects = [
@@ -101,6 +105,11 @@ export const weaponEffects = [
   { name: 'Bane', id: 'baneWeapon', type: 'weapon' },
   { name: 'Impact Weapon', id: 'impactWeapon', type: 'weapon' },
   { name: 'Weapon Focus', id: 'focusWeapon', type: 'weapon' },
+];
+
+export const spellEffects = [
+  // Add Dropdown for some things?
+  { name: 'Keen Weapon', id: '', type: '', source: 'Billy - Rune Something' },
 ];
 
 export const weapons = [
@@ -116,7 +125,7 @@ export const weapons = [
     id: 'GS02',
     type: 'greatsword',
     itemBonus: 1,
-    effectIDs: ['impactWeapon', 'focusWeapon'],
+    effectIDs: ['impactWeapon', 'focusWeapon', 'keenWeapon'],
   },
   {
     name: 'Adamantine Warhammer (+1)',
@@ -155,24 +164,9 @@ export const weaponTypes = [
   },
 ];
 
-export const damageDiceProgression = [
-  '1d2',
-  '1d3',
-  '1d4',
-  '1d6',
-  '1d8',
-  '1d10',
-  '2d6',
-  '2d8',
-  '3d6',
-  '3d8',
-  '4d6',
-  '4d8',
-  '6d6',
-  '6d8',
-  '8d6',
-  '8d8',
-  '12d6',
-  '12d8',
-  '16d6',
+const loadouts = [
+  {
+    name: 'Standard Vital Strike',
+    true: ['powerAttack', 'furiousFocus', 'keenWeapon'],
+  },
 ];

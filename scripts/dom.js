@@ -1,5 +1,5 @@
 import { handleStateChange } from './stateEngine.js';
-import { buffs, weaponEffects, weapons } from './config.js';
+import { actionTypes, buffs, weaponEffects, weapons } from './config.js';
 
 // References -----------------------------------------------------
 export const stateCheckboxes =
@@ -16,25 +16,26 @@ export const domRef = {
 export function pageLoad() {
   generateWeaponList();
   generateBuffList();
+  generateActionList();
 }
 
-export function createMacroOutput(macro, name) {
+export function createMacroElement(macro, name, id) {
   const row = document.createElement('div');
   row.className = 'flex-row clear-item';
 
   const preview = document.createElement('preview');
-  preview.id = `${name}-ouput`;
+  preview.id = `${id}-ouput`;
   preview.className = 'preview';
-  preview.appendChild(document.createTextNode(macro));
+  preview.appendChild(document.createTextNode(macro.replace(/\s/g, '')));
 
   const macroOutput = document.querySelector('#macroOutput');
   row.appendChild(preview);
 
   const button = document.createElement('button');
   button.className = 'clipboard-button';
-  button.appendChild(document.createTextNode('First Attack'));
+  button.appendChild(document.createTextNode(name));
   button.addEventListener('click', () => {
-    navigator.clipboard.writeText(macro);
+    navigator.clipboard.writeText(macro.replace(/\s/g, ''));
   });
   row.appendChild(button);
 
@@ -45,45 +46,6 @@ export function clearUI() {
   const clearItems = document.querySelectorAll('.clear-item');
   clearItems.forEach((item) => {
     item.remove();
-  });
-}
-// Check Lists ----------------------------------------------------
-
-function generateWeaponList() {
-  const weaponContainer = document.querySelector('#weaponList');
-
-  weapons.forEach((weapon) => {
-    const li = generateButton(weapon.id, weapon.name);
-    weaponContainer.appendChild(li);
-  });
-}
-
-export function generateWeaponEffects(selectedWeapon) {
-  const weaponEffectsContainer = document.querySelector('#weaponEffectsList');
-  // need to validate weapon is only one selection
-  const activeWeapon = weapons.find((weapon) => weapon.id == selectedWeapon);
-
-  activeWeapon.effectIDs.forEach((effect) => {
-    //error handling
-    const selectedEffect = weaponEffects.find((e) => e.id == effect);
-    const li = generateButton(selectedEffect.id, selectedEffect.name);
-    weaponEffectsContainer.appendChild(li);
-  });
-}
-
-function generateBuffList() {
-  const effectContainer = document.querySelector('#attackBuffs');
-  const actionContainer = document.querySelector('#attackActions');
-
-  buffs.forEach((buff) => {
-    const li = generateButton(buff.id, buff.name);
-    if (buff.type == 'attack') {
-      effectContainer.appendChild(li);
-    } else if (buff.type == 'action') {
-      actionContainer.appendChild(li);
-    } else {
-      console.log('error');
-    }
   });
 }
 
@@ -107,4 +69,61 @@ export function generateButton(id, name) {
   li.appendChild(label);
 
   return li;
+}
+// Check Lists ----------------------------------------------------
+
+function generateWeaponList() {
+  //
+  const weaponContainer = document.querySelector('#weaponList');
+
+  weapons.forEach((weapon) => {
+    const li = generateButton(weapon.id, weapon.name);
+    weaponContainer.appendChild(li);
+  });
+}
+
+function generateActionList() {
+  const actionContainer = document.querySelector('#attackActions');
+
+  actionTypes.forEach((action) => {
+    const li = generateButton(action.id, action.name);
+    actionContainer.appendChild(li);
+  });
+}
+
+function generateBuffList() {
+  const effectContainer = document.querySelector('#attackBuffs');
+
+  buffs.forEach((buff) => {
+    const li = generateButton(buff.id, buff.name);
+    effectContainer.appendChild(li);
+  });
+}
+
+export function generateWeaponEffects(selectedWeapon) {
+  const container = document.querySelector('#weaponEffectContainer');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  const heading = document.createElement('h3');
+  heading.appendChild(document.createTextNode('Weapon Effects'));
+  container.appendChild(heading);
+
+  const ul = document.createElement('ul');
+  ul.id = 'weaponEffectsList';
+  container.appendChild(ul);
+
+  const activeWeapon = weapons.find((weapon) => weapon.id == selectedWeapon);
+  if (!activeWeapon || !Array.isArray(activeWeapon.effectIDs)) {
+    return;
+  }
+
+  activeWeapon.effectIDs.forEach((effect) => {
+    const selectedEffect = weaponEffects.find((e) => e.id == effect);
+    if (!selectedEffect) return;
+
+    const li = generateButton(selectedEffect.id, selectedEffect.name);
+    ul.appendChild(li);
+  });
 }
