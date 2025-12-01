@@ -6,6 +6,7 @@ export const baseStats = {
   intBonus: 0,
   wisBonus: 0,
   chaBonus: 0,
+  armorClassBase: 10,
 };
 
 export const attackBonuses = {
@@ -30,10 +31,22 @@ export const damageBonuses = {
   untyped: [0],
 };
 
+export const armorBonuses = {
+  armor: [0],
+  deflection: [0],
+  dexterity: [0],
+  dodge: [0],
+  natural: [0],
+  shield: [0],
+  size: [0],
+  untyped: [0], 
+};
+
 // this might become activeWeapon. weapon.js will update this before calculateMacro runs
 export const activeWeapon = {
   critRange: 19,
   damageDice: '2d6',
+  diceIndex: 0,
 };
 
 export const macroDefaults = {
