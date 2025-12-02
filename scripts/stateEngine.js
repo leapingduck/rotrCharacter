@@ -126,13 +126,6 @@ function applyRules() {
       },
     },
     {
-      when: (s) => s.weapon1 && s.weapon2,
-      then: () => {
-        state.error = true;
-        return;
-      },
-    },
-    {
       when: (s) => s.keenWeapon,
       then: () => {
         config.activeWeapon.critRange = 17;

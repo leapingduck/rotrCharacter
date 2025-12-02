@@ -1,13 +1,17 @@
 # TODO / fixes to tackle
 
-- readme.md (General) – Macro should break down calculations for spot checks instead of a single lumped total.
-- readme.md (General) – Validation errors should be routed through a defined DOM element instead of the old `output` placeholder.
-- readme.md (General) – Buff/effect IDs for flaming/bane/impact need to align with state keys; replace lingering `weapon1`/`weapon2` references with the real weapon IDs.
-- readme.md (General) – Reset Vital Strike damage when its toggle is cleared so it doesn’t persist between state changes.
 - index.html / dom.js – Loadouts section is still placeholder text; needs a config-driven checklist renderer using presets from config.
+
 - index.html – Defense and Misc cards are placeholders; should render from configuration arrays (armor/situational effects and allied spell effects) like the attack checklists.
+
 - scripts/stateEngine.js:25-48 – The rule application/reset/validation logic is monolithic; comments call for extracting validation into its own function (e.g., enforce Furious Focus depends on Power Attack, single action/weapon at a time).
+
 - scripts/stateEngine.js:115-120 – `baseStats.strBonus` is incremented on enlarge without resetting to its base each run, so repeated toggles will keep stacking strength.
+
 - scripts/macro.js:21-94 – Macro construction is copy-pasted for each attack; comments note it isn’t DRY and should be refactored (one prefix, reusable roll/damage builders).
+
 - scripts/macro.js:41-48 – `damageOther` handling (e.g., flaming) is commented out in the damage block; needs a proper branch to include secondary damage when present.
+
 - Weapons/attacks roadmap (readme.md) – Pending: Blink/miss chance, Foretell, Legendary Proportions, warhammer 1H/2H handling, Impact/Weapon Focus/Bane application, plus modal/syntax-highlighting for macro previews.
+
+

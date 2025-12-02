@@ -4,12 +4,6 @@ import { actionTypes, buffs, weaponEffects, weapons } from './config.js';
 // References -----------------------------------------------------
 export const stateInputs = document.getElementsByClassName('state-input');
 
-export const domRef = {
-  output1: document.getElementById('output1'),
-  outputLabel1: document.getElementById('output1-label'),
-  outputButton1: document.querySelector('#output1-button'),
-};
-
 // DOM ____________________________________________________________
 
 export function pageLoad() {
@@ -23,7 +17,7 @@ export function createMacroElement(macro, name, id) {
   row.className = 'flex-row clear-item';
 
   const preview = document.createElement('preview');
-  preview.id = `${id}-ouput`;
+  preview.id = `${id}-output`;
   preview.className = 'preview';
   preview.appendChild(document.createTextNode(macro.replace(/\s/g, '')));
 

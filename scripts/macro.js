@@ -60,11 +60,13 @@ function macroComponents(map, attackNumber) {
 
   return macroParts;
 }
+
 let macroParts = macroComponents(0, 0);
 
 const macro = macroParts.prefix + macroParts.roll + macroParts.damage;
 let combinedMacro =
   macroParts.prefix + macroParts.combinedRoll + macroParts.combinedDamage;
+
 export function macroBuilder(activeAction, haste) {
   createMacroElement(macro, 'First Attack', 'firstAttack');
 
