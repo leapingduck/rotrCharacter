@@ -58,40 +58,53 @@ function macroComponents(map, attackNumber) {
 
   return macroParts;
 }
-let macroParts = macroComponents(0, 0);
 
-const macro = macroParts.prefix + macroParts.roll + macroParts.damage;
-let combinedMacro =
-  macroParts.prefix + macroParts.combinedRoll + macroParts.combinedDamage;
 export function macroBuilder(activeAction, haste) {
+  const baseMacroParts = macroComponents(0, 0);
+  const macro =
+    baseMacroParts.prefix +
+    baseMacroParts.roll +
+    baseMacroParts.damage;
+  let combinedMacro =
+    baseMacroParts.prefix +
+    baseMacroParts.combinedRoll +
+    baseMacroParts.combinedDamage;
+
   createMacroElement(macro, 'First Attack', 'firstAttack');
 
   if (haste && activeAction === 'fullRoundAttack') {
-    let macroParts = macroComponents(0, 1);
-    createMacroElement(macro, 'Haste', 'hastedAttack');
-    combinedMacro += macroParts.combinedRoll + macroParts.combinedDamage;
-    iterativeMacroBuilder(2);
+    const hasteMacroParts = macroComponents(0, 1);
+    const hasteMacro =
+      hasteMacroParts.prefix +
+      hasteMacroParts.roll +
+      hasteMacroParts.damage;
+    createMacroElement(hasteMacro, 'Haste', 'hastedAttack');
+    combinedMacro +=
+      hasteMacroParts.combinedRoll + hasteMacroParts.combinedDamage;
+    combinedMacro = iterativeMacroBuilder(2, combinedMacro);
     createMacroElement(combinedMacro, 'Combined', 'multiAttack');
   } else if (activeAction === 'fullRoundAttack') {
-    iterativeMacroBuilder(1);
+    combinedMacro = iterativeMacroBuilder(1, combinedMacro);
     createMacroElement(combinedMacro, 'Combined', 'multiAttack');
   }
 }
 
-function iterativeMacroBuilder(attackNum) {
+function iterativeMacroBuilder(attackNum, combinedMacro) {
   // Iterative Attacks - Does not currently apply furious focus correctly.
 
-  macroParts = macroComponents(-5, attackNum);
+  let macroParts = macroComponents(-5, attackNum);
   const macro5 = macroParts.prefix + macroParts.roll + macroParts.damage;
   console.log(macro5);
   createMacroElement(macro5, 'Second', 'secondAttack');
-  combinedMacro += macroParts.combinedRoll + macroParts.combinedDamage;
+    combinedMacro += macroParts.combinedRoll + macroParts.combinedDamage;
 
   macroParts = macroComponents(-10, attackNum + 1);
   const macro10 = macroParts.prefix + macroParts.roll + macroParts.damage;
   console.log(macro10);
   createMacroElement(macro10, 'Third', 'thirdAttack');
   combinedMacro += macroParts.combinedRoll + macroParts.combinedDamage;
+
+  return combinedMacro;
 }
 
 function calculateAttack() {
@@ -126,6 +139,9 @@ function calculateAttack() {
     untypedAttackBonus;
 
   mac.attackTotal = config.base.bab + config.base.strBonus + mac.attackBonus;
+  console.log(
+    (mac.attackTotal = config.base.bab + config.base.strBonus + mac.attackBonus)
+  );
 }
 
 // reference - multiattack
