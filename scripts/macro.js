@@ -118,7 +118,6 @@ function macroComponents(map, attackNumber) {
   return macroParts;
 }
 
-
 // ##################################################
 // ####          Multi Attack Calculator         ####
 // ####   Sets the number of attacks per round   ####
@@ -142,8 +141,12 @@ function handleAttackNumber(activeAction, haste){
   return attacks;
 }
 
+// ##################################################
+// ####               Macro Builder              ####
+// ####  Creates a single macro and adds to DOM  ####
+// ####  Yes these comment blocks are excessive  ####
+// ##################################################
 
-//macroBuilder creates and outputs a single macro to dom. 
 function macroBuilder(_attackNumber, _attackName, _map) {
 
   const baseMacroParts = macroComponents(_map, _attackNumber);
@@ -151,10 +154,6 @@ function macroBuilder(_attackNumber, _attackName, _map) {
     baseMacroParts.prefix +
     baseMacroParts.roll +
     baseMacroParts.damage;
-  let combinedMacro =
-    baseMacroParts.prefix +
-    baseMacroParts.combinedRoll +
-    baseMacroParts.combinedDamage;
 
   createMacroElement(macro, _attackName, `attack${_attackNumber}`);
 
@@ -189,6 +188,10 @@ export function handleMacro (activeAction, haste){
 
 
  // This is previously a part of macro builder and will need to be reimplimented after the change in multiAttack handling 
+  // let combinedMacro =
+  //   baseMacroParts.prefix +
+  //   baseMacroParts.combinedRoll +
+  //   baseMacroParts.combinedDamage;
   // if (haste && activeAction === 'fullRoundAttack') {
   //   const hasteMacroParts = macroComponents(0, 1);
   //   const hasteMacro =
