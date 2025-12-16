@@ -2,7 +2,14 @@ import { handleStateChange } from './stateEngine.js';
 import { actionTypes, buffs, weaponEffects, weapons } from './config.js';
 
 // References -----------------------------------------------------
-export const stateInputs = document.getElementsByClassName('state-input');
+export const stateCheckboxes =
+  document.getElementsByClassName('state-checkbox');
+
+export const domRef = {
+  output1: document.getElementById('output1'),
+  outputLabel1: document.getElementById('output1-label'),
+  outputButton1: document.querySelector('#output1-button'),
+};
 
 // DOM ____________________________________________________________
 
@@ -17,7 +24,7 @@ export function createMacroElement(macro, name, id) {
   row.className = 'flex-row clear-item';
 
   const preview = document.createElement('preview');
-  preview.id = `${id}-output`;
+  preview.id = `${id}-ouput`;
   preview.className = 'preview';
   preview.appendChild(document.createTextNode(macro.replace(/\s/g, '')));
 
@@ -42,7 +49,7 @@ export function clearUI() {
   });
 }
 
-export function generateChecklistItem(id, name) {
+export function generateButton(id, name) {
   const li = document.createElement('li');
   li.className = 'buffItem';
 
@@ -52,7 +59,7 @@ export function generateChecklistItem(id, name) {
 
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
-  checkbox.className = 'state-input';
+  checkbox.className = 'state-checkbox';
   checkbox.id = id;
   checkbox.addEventListener('change', handleStateChange);
 
@@ -70,7 +77,7 @@ function generateWeaponList() {
   const weaponContainer = document.querySelector('#weaponList');
 
   weapons.forEach((weapon) => {
-    const li = generateChecklistItem(weapon.id, weapon.name);
+    const li = generateButton(weapon.id, weapon.name);
     weaponContainer.appendChild(li);
   });
 }
@@ -79,7 +86,7 @@ function generateActionList() {
   const actionContainer = document.querySelector('#attackActions');
 
   actionTypes.forEach((action) => {
-    const li = generateChecklistItem(action.id, action.name);
+    const li = generateButton(action.id, action.name);
     actionContainer.appendChild(li);
   });
 }
@@ -88,7 +95,7 @@ function generateBuffList() {
   const effectContainer = document.querySelector('#attackBuffs');
 
   buffs.forEach((buff) => {
-    const li = generateChecklistItem(buff.id, buff.name);
+    const li = generateButton(buff.id, buff.name);
     effectContainer.appendChild(li);
   });
 }
@@ -116,7 +123,7 @@ export function generateWeaponEffects(selectedWeapon) {
     const selectedEffect = weaponEffects.find((e) => e.id == effect);
     if (!selectedEffect) return;
 
-    const li = generateChecklistItem(selectedEffect.id, selectedEffect.name);
+    const li = generateButton(selectedEffect.id, selectedEffect.name);
     ul.appendChild(li);
   });
 }

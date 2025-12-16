@@ -1,15 +1,10 @@
-export const baseStats = {
+export const base = {
   bab: 14, // Base attack bonus
   strBonus: 6, // Strength modifier
   dexBonus: 2,
-  conBonus: 0,
-  intBonus: 0,
-  wisBonus: 0,
-  chaBonus: 0,
-  armorClassBase: 10,
 };
 
-export const attackBonuses = {
+export const attack = {
   circumstance: [0],
   competence: [0],
   enhancement: [0],
@@ -21,7 +16,7 @@ export const attackBonuses = {
   untyped: [0],
 };
 
-export const damageBonuses = {
+export const damage = {
   enhancement: [0],
   luck: [0],
   morale: [0],
@@ -31,30 +26,18 @@ export const damageBonuses = {
   untyped: [0],
 };
 
-export const armorBonuses = {
-  armor: [0],
-  deflection: [0],
-  dexterity: [0],
-  dodge: [0],
-  natural: [0],
-  shield: [0],
-  size: [0],
-  untyped: [0], 
-};
-
 // this might become activeWeapon. weapon.js will update this before calculateMacro runs
-export const activeWeapon = {
+export const weapon = {
   critRange: 19,
   damageDice: '2d6',
-  diceIndex: 0,
 };
 
-export const macroDefaults = {
+export const macro = {
   attackName: 'First Attack',
   attackBonus: 0,
   attackTotal: 0,
   vitalStrikeDamage: '',
-  damageBase: Math.floor(baseStats.strBonus * 1.5),
+  damageBase: Math.floor(base.strBonus * 1.5),
   damageBonus: 0,
   damageOther: '',
   damageTotal: 0,
@@ -83,7 +66,6 @@ export const damageDiceProgression = [
   '16d6',
 ];
 
-// Lists - Could be added to a db in later version
 export const buffs = [
   { name: 'Power Attack', id: 'powerAttack', type: 'attack' },
   { name: 'Furious Focus', id: 'furiousFocus', type: 'attack' },
@@ -161,7 +143,7 @@ export const weapons = [
   },
 ];
 
-export const weaponBaseStats = [
+export const weaponTypes = [
   {
     name: 'greatsword',
     id: 'GS',

@@ -66,7 +66,7 @@
 - [ ] Add Billy
 - [ ] Abilities and spell cards (For Billy)
 - [ ] Make cards collapsible when clicked. One active per row, inactive shows a summary of what's active
-- [ ] Cure Light Wounds Calculator (enter total hitpoints and roll 1d8 + 1 until full. Output expended charges)
+      = [ ] Cure Light Wounds Calculator (enter total hitpoints and roll 1d8 + 1 until full. Output expended charges)
 
 ## Updates
 
@@ -75,8 +75,9 @@ Also add a hasted macro that adds a second full bab attack
 
 ### Variables
 
-- [x] Rename `base` to `baseStats` for clearer intent.
-- [x] Rename `attack`/`damage` objects to `attackBonuses`/`damageBonuses`.
-- [x] Rename `macro` to `macroDefaults` to distinguish it from the macro string.
-- [x] Rename `stateCheckboxes` to something like `stateInputs`.
-- [x] Rename `generateButton` to `createChecklistItem`.
+- Rename `base` to `baseStats` for clearer intent.
+- Rename `attack`/`damage` objects to `attackBonuses`/`damageBonuses`.
+- Rename `macro` to `macroState` (or similar) to distinguish it from the macro string.
+- Rename `stateCheckboxes` to something like `stateInputs`/`buffCheckboxes`.
+- Rename `generateButton` to `createChecklistItem`.
+- Rename the `rules` array in `stateEngine.js` to something like `attackRules` for clarity.
