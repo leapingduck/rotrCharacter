@@ -51,7 +51,8 @@ function calculateAttack() {
 }
 
 // ##################################################
-// ####         Build Macro Components           ####
+// ####          Build Macro Components          ####
+// ####             IGNORE THE MESS              ####
 // ##################################################
 
 function macroComponents(map, attackNumber) {
@@ -115,6 +116,8 @@ function macroComponents(map, attackNumber) {
   return macroParts;
 }
 
+
+
 export function macroBuilder(activeAction, haste) {
   const baseMacroParts = macroComponents(0, 0);
   const macro =
@@ -159,13 +162,6 @@ function iterativeMacroBuilder(attackNum, combinedMacro) {
   combinedMacro += macroParts.combinedRoll + macroParts.combinedDamage;
 
   return combinedMacro;
-}
-
-
-  mac.attackTotal = config.base.bab + config.base.strBonus + mac.attackBonus;
-  console.log(
-    (mac.attackTotal = config.base.bab + config.base.strBonus + mac.attackBonus)
-  );
 }
 
 // reference - multiattack

@@ -175,7 +175,7 @@ function applyRules() {
     }
   }
 
-  activeAction, haste;
+  macroBuilder(activeAction, haste);
 }
 
 function updateWeaponEffectsUI() {
