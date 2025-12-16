@@ -1,6 +1,6 @@
 import * as config from './config.js';
 import { stateInputs, generateWeaponEffects, clearUI } from './dom.js';
-import { macroBuilder } from './macro.js';
+import { handleMacro } from './macro.js';
 
 function buildInitialState() {
   const ids = [
@@ -77,8 +77,8 @@ function applyRules() {
     {
       when: (s) => s.banner,
       then: () => {
-        config.attack.morale.push(1);
-        config.damage.morale.push(1);
+        config.attackBonuses.morale.push(1);
+        config.damageBonuses.morale.push(1);
         console.log(config.attack.morale.push(1));
       },
     },
@@ -175,7 +175,7 @@ function applyRules() {
     }
   }
 
-  macroBuilder(activeAction, haste);
+  handleMacro(activeAction, haste);
 }
 
 function updateWeaponEffectsUI() {
