@@ -77,8 +77,9 @@ function applyRules() {
     {
       when: (s) => s.banner,
       then: () => {
-        config.attackBonuses.morale.push(1);
-        config.damageBonuses.morale.push(1);
+        config.attack.morale.push(1);
+        config.damage.morale.push(1);
+        console.log(config.attack.morale.push(1));
       },
     },
     {
