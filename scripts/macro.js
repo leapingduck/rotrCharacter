@@ -149,6 +149,8 @@ function handleAttackNumber(activeAction, haste){
 
 function macroBuilder(_attackNumber, _attackName, _map) {
 
+  // should attacknumber be 0 for all of the individual macros?
+  // only iterative attacks need attack number?
   const baseMacroParts = macroComponents(_map, _attackNumber);
   const macro =
     baseMacroParts.prefix +
