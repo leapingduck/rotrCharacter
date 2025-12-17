@@ -2,6 +2,7 @@ import * as config from "./config.js";
 import { createMacroElement } from "./dom.js";
 
 let macroParts = macroComponents(0, 0);
+let macroAccumulator = macroParts.prefix;
 
 const macro = macroParts.prefix + macroParts.roll + macroParts.damage;
 let combinedMacro =
@@ -68,21 +69,6 @@ function macroComponents(map, attackNumber) {
       : ""
   } {{charname=Lord Guber}}`;
 
-  // this is not dry at all... figure something out
-  const counter = attackNumber > 0 ? `${attackNumber}` : "";
-
-  let CombinedMacroRoll = `{{roll${counter}=[[1d20cs>${
-    config.activeWeapon.critRange
-  } + ${config.baseStats.bab}[BAB] + ${config.baseStats.strBonus}[Strength] + ${
-    config.macroDefaults.attackBonus
-  }[Buff] + ${map}[MAP] ${
-    config.macroDefaults.queryToggle ? " + ?{AttackMod|0}" : ""
-  }]]}} {{critconfirm${counter}=[[1d20 + ${config.baseStats.bab}[BAB] + ${
-    config.baseStats.strBonus
-  }[Strength] + ${config.macroDefaults.attackBonus}[Buff]+ ${map}[MAP] ${
-    config.macroDefaults.queryToggle ? " + ?{AttackMod|0}" : ""
-  } ]]}}`;
-
   let macroRoll = `{{roll=[[1d20cs>${config.activeWeapon.critRange} + ${
     config.baseStats.bab
   }[BAB] + ${config.baseStats.strBonus}[Strength] + ${
@@ -97,8 +83,6 @@ function macroComponents(map, attackNumber) {
 
   let macroDamage = `{{damage=1}}{{dmg1flag=1}}{{dmg1=[[${config.activeWeapon.damageDice} ${config.macroDefaults.vitalStrikeDamage} + ${config.macroDefaults.damageTotal} ]]}} {{dmg1type=Slashing}}{{dmg1crit=[[(${config.activeWeapon.damageDice} + ${config.macroDefaults.damageTotal})*2 ${config.macroDefaults.vitalStrikeDamage}]]}}`;
 
-  let combinedMacroDamage = `{{roll${counter}dmg1=[[${config.activeWeapon.damageDice} ${config.macroDefaults.vitalStrikeDamage} + ${config.macroDefaults.damageTotal} ]]}} {{roll${counter}dmg1type=Slashing}}{{roll${counter}dmg1crit=[[(${config.activeWeapon.damageDice} + ${config.macroDefaults.damageTotal})*2 ${config.macroDefaults.vitalStrikeDamage}]]}}`;
-
   // if (config.macro.damageOther != '') {
   //   macroDamage += `{{dmg2flag=1}}{{dmg2type=Fire}}{{dmg2=[[${config.macro.damageOther}]]}}{{dmg2crit=[[${config.macro.damageOther}]]}}`;
   // }
@@ -106,9 +90,7 @@ function macroComponents(map, attackNumber) {
   macroParts = {
     prefix: macroPrefix,
     roll: macroRoll,
-    damage: macroDamage,
-    combinedRoll: CombinedMacroRoll,
-    combinedDamage: combinedMacroDamage,
+    damage: macroDamage
   };
 
   return macroParts;
@@ -169,53 +151,35 @@ function macroBuilder(_attackNumber, _attackName, _map) {
   createMacroElement(macro, _attackName, `attack${_attackNumber}`);
 }
 
-function macroCombiner() {
-  let combinedMacro = macroParts.prefix;
-  console.log(combinedMacro);
+// ##################################################
+// ####          Combined Macro Builder          ####
+// ####    Combines all attacks into one macro   ####
+// ##################################################
+
+function macroCombiner(_attackNumber, _map) {
+
+  const combinedMacroParts = macroComponents(_map, _attackNumber);
+  macroAccumulator += combinedMacroParts.roll;
+  macroAccumulator += combinedMacroParts.damage;
 }
+
+
+// ##################################################
+// ####          Handle Macro (Export )          ####
+// ####    Called from outside to get started    ####
+// ##################################################
+
 
 export function handleMacro(activeAction, haste) {
   const attacks = handleAttackNumber(activeAction, haste);
+  macroAccumulator = macroParts.prefix;
   attacks.forEach((a) => {
     macroBuilder(a.attackNumber, a.attackName, a.multiAttackPenalty);
     if (attacks.length > 1) {
-      macroCombiner();
+      macroCombiner(a.attackNumber, a.multiAttackPenalty);
     }
   });
+  if (attacks.length > 1){
+    createMacroElement(macroAccumulator, 'Full Attack', 'fullattack')
+  }
 }
-
-// function iterativeMacroBuilder(attackNum, combinedMacro) {
-//   // Iterative Attacks - Does not currently apply furious focus correctly.
-
-//   let macroParts = macroComponents(-5, attackNum);
-//   const macro5 = macroParts.prefix + macroParts.roll + macroParts.damage;
-//   createMacroElement(macro5, "Second", "secondAttack");
-//   combinedMacro += macroParts.combinedRoll + macroParts.combinedDamage;
-
-//   macroParts = macroComponents(-10, attackNum + 1);
-//   const macro10 = macroParts.prefix + macroParts.roll + macroParts.damage;
-//   createMacroElement(macro10, "Third", "thirdAttack");
-//   combinedMacro += macroParts.combinedRoll + macroParts.combinedDamage;
-
-//   return combinedMacro;
-// }
-// This is previously a part of macro builder and will need to be reimplimented after the change in multiAttack handling
-// let combinedMacro =
-//   baseMacroParts.prefix +
-//   baseMacroParts.combinedRoll +
-//   baseMacroParts.combinedDamage;
-// if (haste && activeAction === 'fullRoundAttack') {
-//   const hasteMacroParts = macroComponents(0, 1);
-//   const hasteMacro =
-//     hasteMacroParts.prefix +
-//     hasteMacroParts.roll +
-//     hasteMacroParts.damage;
-//   createMacroElement(hasteMacro, 'Haste', 'hastedAttack');
-//   combinedMacro +=
-//     hasteMacroParts.combinedRoll + hasteMacroParts.combinedDamage;
-//   combinedMacro = iterativeMacroBuilder(2, combinedMacro);
-//   createMacroElement(combinedMacro, 'Combined', 'multiAttack');
-// } else if (activeAction === 'fullRoundAttack') {
-//   combinedMacro = iterativeMacroBuilder(1, combinedMacro);
-//   createMacroElement(combinedMacro, 'Combined', 'multiAttack');
-// }
