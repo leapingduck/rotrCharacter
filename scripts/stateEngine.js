@@ -56,6 +56,20 @@ function applyRules() {
       },
     },
     {
+      when: (s) => s.smiteChaos,
+      then: () => {
+        config.attackBonuses.untyped.push(3);
+        config.damageBonuses.untyped.push(6);
+      },
+    },
+    {
+      when: (s) => s.markWrath,
+      then: () => {
+        config.attackBonuses.insight.push(1);
+        config.damageBonuses.insight.push(1);
+      },
+    },
+    {
       when: (s) => s.furiousFocus && !s.powerAttack,
       then: () => {
         state.error = true;
@@ -79,7 +93,6 @@ function applyRules() {
       then: () => {
         config.attackBonuses.morale.push(1);
         config.damageBonuses.morale.push(1);
-        console.log(config.attack.morale.push(1));
       },
     },
     {

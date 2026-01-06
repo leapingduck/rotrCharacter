@@ -1,7 +1,7 @@
 export const baseStats = {
-  bab: 14, // Base attack bonus
-  strBonus: 6, // Strength modifier
-  dexBonus: 2,
+  bab: 16, // Base attack bonus
+  strBonus: 7, // Strength modifier
+  dexBonus: 5,
   conBonus: 0,
   intBonus: 0,
   wisBonus: 0,
@@ -25,6 +25,7 @@ export const damageBonuses = {
   enhancement: [0],
   luck: [0],
   morale: [0],
+  insight: [0],
   item: [0],
   profane: [0],
   sacred: [0],
@@ -39,7 +40,7 @@ export const armorBonuses = {
   natural: [0],
   shield: [0],
   size: [0],
-  untyped: [0], 
+  untyped: [0],
 };
 
 // this might become activeWeapon. weapon.js will update this before calculateMacro runs
@@ -92,6 +93,8 @@ export const buffs = [
   { name: 'Enlarge', id: 'enlarge', type: 'attack' },
   { name: 'Haste', id: 'haste', type: 'attack' },
   { name: 'Heroism', id: 'heroism', type: 'attack' },
+  { name: 'Smite Chaos', id: 'smiteChaos', type: 'attack' },
+  { name: 'Mark of Wrath', id: 'markWrath', type: 'attack' },
 ];
 
 export const actionTypes = [
