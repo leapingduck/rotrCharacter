@@ -51,8 +51,8 @@ function applyRules() {
     {
       when: (s) => s.powerAttack,
       then: () => {
-        config.attackBonuses.untyped.push(-4);
-        config.damageBonuses.untyped.push(12);
+        config.attackBonuses.untyped.push(-5);
+        config.damageBonuses.untyped.push(15);
       },
     },
     {
@@ -79,7 +79,7 @@ function applyRules() {
     {
       when: (s) => s.powerAttack && s.furiousFocus,
       then: () => {
-        config.attackBonuses.untyped.push(4);
+        config.attackBonuses.untyped.pop();
       },
     },
     {

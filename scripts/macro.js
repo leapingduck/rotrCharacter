@@ -94,7 +94,7 @@ function macroComponents(map, attackNumber) {
   }
 
   const vitalAdd = normalizeAdditiveChunk(
-    config.macroDefaults.vitalStrikeDamage
+    config.macroDefaults.vitalStrikeDamage,
   );
 
   const baseDice = config.activeWeapon.damageDice; // e.g. "2d6"
@@ -226,7 +226,7 @@ function macroCombiner(_attackNumber, _map) {
 }
 
 // ##################################################
-// ####          Handle Macro (Export )          ####
+// ####           Handle Macro (Export)          ####
 // ####    Called from outside to get started    ####
 // ##################################################
 
@@ -242,4 +242,35 @@ export function handleMacro(activeAction, haste) {
   if (attacks.length > 1) {
     createMacroElement(macroAccumulator, 'Full Attack', 'fullattack');
   }
+
+  console.log(
+    'config.attackBonuses.circumstance',
+    config.attackBonuses.circumstance,
+  );
+  console.log(
+    'config.attackBonuses.competence',
+    config.attackBonuses.competence,
+  );
+  console.log(
+    'config.attackBonuses.enhancement',
+    config.attackBonuses.enhancement,
+  );
+  console.log('config.attackBonuses.insight', config.attackBonuses.insight);
+  console.log('config.attackBonuses.luck', config.attackBonuses.luck);
+  console.log('config.attackBonuses.morale', config.attackBonuses.morale);
+  console.log('config.attackBonuses.size', config.attackBonuses.size);
+  console.log('config.attackBonuses.item', config.attackBonuses.item);
+  console.log('config.attackBonuses.untyped', config.attackBonuses.untyped);
+
+  console.log(
+    'config.damageBonuses.enhancement',
+    config.damageBonuses.enhancement,
+  );
+  console.log('config.damageBonuses.luck', config.damageBonuses.luck);
+  console.log('config.damageBonuses.morale', config.damageBonuses.morale);
+  console.log('config.damageBonuses.insight', config.damageBonuses.insight);
+  console.log('config.damageBonuses.item', config.damageBonuses.item);
+  console.log('config.damageBonuses.profane', config.damageBonuses.profane);
+  console.log('config.damageBonuses.sacred', config.damageBonuses.sacred);
+  console.log('config.damageBonuses.untyped', config.damageBonuses.untyped);
 }

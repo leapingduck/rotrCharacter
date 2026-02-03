@@ -145,7 +145,7 @@ export const weapons = [
     name: 'Impact Greatsword (+1)',
     id: 'GS02',
     type: 'greatsword',
-    itemBonus: 1,
+    itemBonus: 2,
     effectIDs: ['impactWeapon', 'focusWeapon', 'keenWeapon'],
   },
   {
