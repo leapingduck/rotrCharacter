@@ -46,119 +46,111 @@ export const armorBonuses = {
 // this might become activeWeapon. weapon.js will update this before calculateMacro runs
 export const activeWeapon = {
   critRange: 19,
-  damageDice: '2d6',
+  damageDice: "2d6",
   diceIndex: 0,
 };
 
 export const macroDefaults = {
-  attackName: 'First Attack',
+  attackName: "First Attack",
   attackBonus: 0,
   attackTotal: 0,
-  vitalStrikeDamage: '',
+  vitalStrikeDamage: "",
   damageBase: Math.floor(baseStats.strBonus * 1.5),
   damageBonus: 0,
-  damageOther: '',
+  damageOther: "",
   damageTotal: 0,
   queryToggle: 0,
 };
 
 export const damageDiceProgression = [
-  '1d2',
-  '1d3',
-  '1d4',
-  '1d6',
-  '1d8',
-  '1d10',
-  '2d6',
-  '2d8',
-  '3d6',
-  '3d8',
-  '4d6',
-  '4d8',
-  '6d6',
-  '6d8',
-  '8d6',
-  '8d8',
-  '12d6',
-  '12d8',
-  '16d6',
+  "1d2",
+  "1d3",
+  "1d4",
+  "1d6",
+  "1d8",
+  "1d10",
+  "2d6",
+  "2d8",
+  "3d6",
+  "3d8",
+  "4d6",
+  "4d8",
+  "6d6",
+  "6d8",
+  "8d6",
+  "8d8",
+  "12d6",
+  "12d8",
+  "16d6",
 ];
 
 // Lists - Could be added to a db in later version
 export const buffs = [
-  { name: 'Power Attack', id: 'powerAttack', type: 'attack' },
-  { name: 'Furious Focus', id: 'furiousFocus', type: 'attack' },
-  { name: 'Banner', id: 'banner', type: 'attack' },
-  { name: 'Challenged Foe', id: 'challenge', type: 'attack' },
-  { name: 'Enlarge', id: 'enlarge', type: 'attack' },
-  { name: 'Haste', id: 'haste', type: 'attack' },
-  { name: 'Heroism', id: 'heroism', type: 'attack' },
-  { name: 'Smite Chaos', id: 'smiteChaos', type: 'attack' },
-  { name: 'Mark of Wrath', id: 'markWrath', type: 'attack' },
+  { name: "Power Attack", id: "powerAttack", type: "attack" },
+  { name: "Furious Focus", id: "furiousFocus", type: "attack" },
+  { name: "Banner", id: "banner", type: "attack" },
+  { name: "Challenged Foe", id: "challenge", type: "attack" },
+  { name: "Enlarge", id: "enlarge", type: "attack" },
+  { name: "Haste", id: "haste", type: "attack" },
+  { name: "Heroism", id: "heroism", type: "attack" },
+  { name: "Smite Chaos", id: "smiteChaos", type: "attack" },
+  { name: "Mark of Wrath", id: "markWrath", type: "attack" },
 ];
 
 export const actionTypes = [
   {
-    name: 'Charge',
-    id: 'chargeAction',
-    type: 'action',
+    name: "Charge",
+    id: "chargeAction",
+    type: "action",
   },
   {
-    name: 'Vital Strike',
-    id: 'vitalStrike',
-    type: 'action',
+    name: "Vital Strike",
+    id: "vitalStrike",
+    type: "action",
   },
   {
-    name: 'Full Round Attack',
-    id: 'fullRoundAttack',
-    type: 'action',
+    name: "Full Round Attack",
+    id: "fullRoundAttack",
+    type: "action",
   },
   {
-    name: 'Fight Defensively',
-    id: 'fightDefensively',
-    type: 'action',
+    name: "Fight Defensively",
+    id: "fightDefensively",
+    type: "action",
   },
 ];
 
 export const weaponEffects = [
-  { name: 'Flaming Weapon', id: 'flamingWeapon', type: 'weapon' },
-  { name: 'Keen Weapon', id: 'keenWeapon', type: 'weapon' },
-  { name: 'Bane', id: 'baneWeapon', type: 'weapon' },
-  { name: 'Impact Weapon', id: 'impactWeapon', type: 'weapon' },
-  { name: 'Weapon Focus', id: 'focusWeapon', type: 'weapon' },
+  { name: "Flaming Weapon", id: "flamingWeapon", type: "weapon" },
+  { name: "Keen Weapon", id: "keenWeapon", type: "weapon" },
+  { name: "Bane", id: "baneWeapon", type: "weapon" },
+  { name: "Impact Weapon", id: "impactWeapon", type: "weapon" },
+  { name: "Weapon Focus", id: "focusWeapon", type: "weapon" },
+  { name: "Runeforged Weapon", id: "runeforgedWeapon", type: "weapon" },
 ];
 
 export const spellEffects = [
   // Add Dropdown for some things?
-  { name: 'Keen Weapon', id: '', type: '', source: 'Billy - Rune Something' },
+  { name: "Keen Weapon", id: "", type: "", source: "Billy - Rune Something" },
 ];
 
 export const weapons = [
   {
-    name: 'Flaming Giant Bane Greatsword (+1)',
-    id: 'GS01',
-    type: 'greatsword',
-    itemBonus: 1,
-    effectIDs: ['flamingWeapon', 'keenWeapon', 'baneWeapon', 'focusWeapon'],
-  },
-  {
-    name: 'Impact Greatsword (+1)',
-    id: 'GS02',
-    type: 'greatsword',
+    name: "Impact Greatsword (+1)",
+    id: "GS02",
+    type: "greatsword",
     itemBonus: 2,
-    effectIDs: ['impactWeapon', 'focusWeapon', 'keenWeapon'],
+    effectIDs: [
+      "impactWeapon",
+      "focusWeapon",
+      "keenWeapon",
+      "runeforgedWeapon",
+    ],
   },
   {
-    name: 'Adamantine Warhammer (+1)',
-    id: 'WH01',
-    type: 'warhammer',
-    itemBonus: 1,
-    effectIDs: [],
-  },
-  {
-    name: 'Gauntlet',
-    id: 'WH02',
-    type: 'warhammer',
+    name: "Gauntlet",
+    id: "WH02",
+    type: "warhammer",
     itemBonus: 1,
     effectIDs: [],
   },
@@ -166,19 +158,19 @@ export const weapons = [
 
 export const weaponBaseStats = [
   {
-    name: 'greatsword',
-    id: 'GS',
-    damageDice: '2d6',
-    damageType: 'slashing',
+    name: "greatsword",
+    id: "GS",
+    damageDice: "2d6",
+    damageType: "slashing",
     hands: 2,
     critRange: 19,
     critMultiplier: 2,
   },
   {
-    name: 'warhammer',
-    id: 'WH',
-    damageDice: '1d8',
-    damageType: 'bludgeoning',
+    name: "warhammer",
+    id: "WH",
+    damageDice: "1d8",
+    damageType: "bludgeoning",
     hands: [1, 2],
     critRange: 20,
     critMultiplier: 3,
@@ -187,7 +179,7 @@ export const weaponBaseStats = [
 
 const loadouts = [
   {
-    name: 'Standard Vital Strike',
-    true: ['powerAttack', 'furiousFocus', 'keenWeapon'],
+    name: "Standard Vital Strike",
+    true: ["powerAttack", "furiousFocus", "keenWeapon"],
   },
 ];

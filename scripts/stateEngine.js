@@ -1,6 +1,6 @@
-import * as config from './config.js';
-import { stateInputs, generateWeaponEffects, clearUI } from './dom.js';
-import { handleMacro } from './macro.js';
+import * as config from "./config.js";
+import { stateInputs, generateWeaponEffects, clearUI } from "./dom.js";
+import { handleMacro } from "./macro.js";
 
 function buildInitialState() {
   const ids = [
@@ -15,7 +15,7 @@ function buildInitialState() {
       acc[id] = false;
       return acc;
     },
-    { error: false }
+    { error: false },
   );
 }
 
@@ -36,10 +36,10 @@ function applyRules() {
 
   let activeAction;
   let haste;
-  config.macroDefaults.damageOther = '';
-  config.activeWeapon.damageDice = '2d6';
+  config.macroDefaults.damageOther = "";
+  config.activeWeapon.damageDice = "2d6";
   config.activeWeapon.critRange = 19;
-  config.macroDefaults.vitalStrikeDamage = '';
+  config.macroDefaults.vitalStrikeDamage = "";
   //  -------------------------------------------------
 
   // make validation function. Checks for stuff like if power attack is unchecked then make sure furious focus is unchecked
@@ -85,7 +85,16 @@ function applyRules() {
     {
       when: (s) => s.flamingWeapon,
       then: () => {
-        config.macroDefaults.damageOther = '1d6[Fire]';
+        config.macroDefaults.damageOther = "1d6[Fire]";
+      },
+    },
+
+    {
+      when: (s) => s.runeforgedWeapon,
+      then: () => {
+        config.attackBonuses.item.push(3);
+        // config.attackBonuses.item.map(value => value + 2)
+        config.macroDefaults.damageOther = "2d6[Bane]";
       },
     },
     {
@@ -109,20 +118,12 @@ function applyRules() {
       },
     },
     {
-      when: (s) => s.GS01,
-      then: () => {
-        config.attackBonuses.item.push(1);
-        config.attackBonuses.untyped.push(1);
-        config.damageBonuses.item.push(1);
-      },
-    },
-    {
       when: (s) => s.GS02,
       then: () => {
         config.attackBonuses.item.push(1);
         config.attackBonuses.untyped.push(1);
         config.damageBonuses.item.push(1);
-        config.activeWeapon.damageDice = '3d6';
+        config.activeWeapon.damageDice = "3d6";
       },
     },
     {
@@ -130,13 +131,13 @@ function applyRules() {
       then: () => {
         config.attackBonuses.untyped.push(-1);
         config.baseStats.strBonus += 1;
-        config.activeWeapon.damageDice = '3d6';
+        config.activeWeapon.damageDice = "3d6";
       },
     },
     {
       when: (s) => s.GS02 && s.enlarge,
       then: () => {
-        config.activeWeapon.damageDice = '4d6';
+        config.activeWeapon.damageDice = "4d6";
       },
     },
     {
@@ -155,26 +156,26 @@ function applyRules() {
     {
       when: (s) => s.chargeAction,
       then: () => {
-        activeAction = 'chargeAction';
+        activeAction = "chargeAction";
       },
     },
     {
       when: (s) => s.fullRoundAttack,
       then: () => {
-        activeAction = 'fullRoundAttack';
+        activeAction = "fullRoundAttack";
       },
     },
     {
       when: (s) => s.fightDefensively,
       then: () => {
         config.attackBonuses.untyped.push(-200);
-        activeAction = 'fightDefensively';
+        activeAction = "fightDefensively";
       },
     },
     {
       when: (s) => s.vitalStrike,
       then: () => {
-        activeAction = 'vitalStrike';
+        activeAction = "vitalStrike";
         config.macroDefaults.vitalStrikeDamage = `+ ${config.activeWeapon.damageDice} + ${config.activeWeapon.damageDice}`;
       },
     },
@@ -192,18 +193,18 @@ function applyRules() {
 }
 
 function updateWeaponEffectsUI() {
-  const weaponEffectsContainer = document.querySelector('#weaponEffectsList');
+  const weaponEffectsContainer = document.querySelector("#weaponEffectsList");
   if (weaponEffectsContainer) {
     // 1. Clear current weapon effects
-    weaponEffectsContainer.innerHTML = '';
+    weaponEffectsContainer.innerHTML = "";
   }
   // 2. Decide which weapon is selected
   let selectedWeaponId = null;
 
   if (state.GS01 && !state.GS02) {
-    selectedWeaponId = 'GS01';
+    selectedWeaponId = "GS01";
   } else if (state.GS02 && !state.GS01) {
-    selectedWeaponId = 'GS02';
+    selectedWeaponId = "GS02";
   } else {
     // no weapon or invalid combo, nothing to render
     return;
